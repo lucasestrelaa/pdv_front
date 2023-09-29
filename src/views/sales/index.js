@@ -8,10 +8,13 @@ import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 
+import { useSelector } from 'react-redux';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const Sales = () => {
   const [data, setData] = useState([]);
+  // const [current, setCurrent] = useState([])
   const token = sessionStorage.getItem('authorization');
   /**
    * Todas as vendas, puxar os dados dos produtos/vendas
@@ -19,8 +22,14 @@ const Sales = () => {
   useEffect(() => {
     if (token != '') {
       getSales();
+      // GetCurrent()
     }
   }, []);
+
+  // const GetCurrent = () => {
+    const products = useSelector((state) => state.customization.product);
+    console.log(products)
+  // }
 
   const getSales = () => {
     axios

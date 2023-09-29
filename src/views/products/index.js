@@ -8,6 +8,7 @@ import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const NewProduct = () => {
@@ -33,6 +34,8 @@ const NewProduct = () => {
         console.log(error);
       });
   };
+
+
 
   return (
     <MainCard title="Produtos">
