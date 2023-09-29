@@ -30,7 +30,7 @@ import Transitions from 'ui-component/extended/Transitions';
 import NotificationList from './NotificationList';
 
 // assets
-import { IconBell } from '@tabler/icons';
+import { IconShoppingCart } from '@tabler/icons';
 
 // notification status options
 const status = [
@@ -54,7 +54,7 @@ const status = [
 
 // ==============================|| NOTIFICATION ||============================== //
 
-const NotificationSection = () => {
+const CartSection = () => {
   const theme = useTheme();
   const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -119,9 +119,17 @@ const NotificationSection = () => {
             onClick={handleToggle}
             color="inherit"
           >
-            <IconBell stroke={1.5} size="1.3rem" />
+            <IconShoppingCart stroke={1.5} size="1.3rem" />
           </Avatar>
         </ButtonBase>
+        <Chip
+      size="small"
+      label="01"
+      sx={{
+        color: theme.palette.background.default,
+        bgcolor: theme.palette.warning.dark
+      }}
+    />
       </Box>
       <Popper
         placement={matchesXs ? 'bottom' : 'bottom-end'}
@@ -151,7 +159,7 @@ const NotificationSection = () => {
                       <Grid container alignItems="center" justifyContent="space-between" sx={{ pt: 2, px: 2 }}>
                         <Grid item>
                           <Stack direction="row" spacing={2}>
-                            <Typography variant="subtitle1">All Notification</Typography>
+                            <Typography variant="subtitle1">Carrinho</Typography>
                             <Chip
                               size="small"
                               label="01"
@@ -216,4 +224,4 @@ const NotificationSection = () => {
   );
 };
 
-export default NotificationSection;
+export default CartSection;

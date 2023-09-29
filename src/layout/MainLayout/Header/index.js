@@ -8,7 +8,7 @@ import { Avatar, Box, ButtonBase } from '@mui/material';
 import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
-import NotificationSection from './NotificationSection';
+// import NotificationSection from './NotificationSection';       // <NotificationSection />
 import CartSection from './CartSection';
 
 // assets
@@ -63,7 +63,6 @@ const Header = ({ handleLeftDrawerToggle }) => {
 
       {/* notification & profile */}
       <CartSection />
-      <NotificationSection />
       <ProfileSection />
     </>
   );

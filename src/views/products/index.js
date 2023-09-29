@@ -39,7 +39,7 @@ const NewProduct = () => {
 
   return (
     <MainCard title="Produtos">
-      <Button onClick={() => alert('Novo produto')}>Nova produto</Button>
+      <Button onClick={() => alert('Novo produto')}>Novo produto</Button>
       {data.length > 0 && 
       <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
         {data.map((res, index) => {
