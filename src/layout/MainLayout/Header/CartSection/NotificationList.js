@@ -93,7 +93,7 @@ const NotificationList = () => {
               <ListItemAvatar>
                 <Avatar alt="John Doe" src={User1} />
               </ListItemAvatar>
-              <ListItemText primary={`qnt: ${res.name}`} />
+              <ListItemText primary={`${res.name}`} />
               <ListItemSecondaryAction>
                 <Grid container justifyContent="flex-end">
                   <Grid item xs={12}>

@@ -59,7 +59,7 @@ const Sales = () => {
         {data.map((res, index) => {
           return (
             <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
-              <Typography variant="body2">{res.name} - {res.color} - {res.price}</Typography>
+              <Typography variant="body2">{res.paid} - {res.type_payment} - {res.price}</Typography>
               <Divider />
             </Grid>
           )
