@@ -9,10 +9,13 @@ import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 
 import { useSelector } from 'react-redux';
+// Routes
+import { useNavigate } from "react-router-dom";
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const Sales = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   // const [current, setCurrent] = useState([])
   const token = sessionStorage.getItem('authorization');
@@ -44,10 +47,13 @@ const Sales = () => {
         console.log(error);
       });
   };
+  const redirNewSale = () => {
+    return navigate('/newSale')
+  }
 
   return (
     <MainCard title="Vendas">
-      <Button onClick={() => alert('Nova venda')}>Nova venda</Button>
+      <Button onClick={() => redirNewSale()}>Nova venda</Button>
       {data.length > 0 && 
       <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
         {data.map((res, index) => {

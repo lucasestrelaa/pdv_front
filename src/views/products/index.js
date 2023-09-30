@@ -7,11 +7,13 @@ import { gridSpacing } from 'store/constant';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const NewProduct = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const token = sessionStorage.getItem('authorization');
   useEffect(() => {
@@ -35,11 +37,14 @@ const NewProduct = () => {
       });
   };
 
+  const redirNewProduct = () => {
+    return navigate('/newProduct')
+  }
 
 
   return (
     <MainCard title="Produtos">
-      <Button onClick={() => alert('Novo produto')}>Novo produto</Button>
+      <Button onClick={() => redirNewProduct()}>Novo produto</Button>
       {data.length > 0 && 
       <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
         {data.map((res, index) => {

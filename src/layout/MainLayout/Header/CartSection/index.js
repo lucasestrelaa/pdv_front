@@ -31,6 +31,7 @@ import NotificationList from './NotificationList';
 
 // assets
 import { IconShoppingCart } from '@tabler/icons';
+import { useSelector } from 'react-redux';
 
 // notification status options
 const status = [
@@ -57,6 +58,8 @@ const status = [
 const CartSection = () => {
   const theme = useTheme();
   const matchesXs = useMediaQuery(theme.breakpoints.down('md'));
+
+  const products = useSelector((state) => state.customization.product);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
@@ -124,7 +127,7 @@ const CartSection = () => {
         </ButtonBase>
         <Chip
       size="small"
-      label="01"
+      label={`${products.length}`}
       sx={{
         color: theme.palette.background.default,
         bgcolor: theme.palette.warning.dark
@@ -162,7 +165,7 @@ const CartSection = () => {
                             <Typography variant="subtitle1">Carrinho</Typography>
                             <Chip
                               size="small"
-                              label="01"
+                              label={`${products.length}`}
                               sx={{
                                 color: theme.palette.background.default,
                                 bgcolor: theme.palette.warning.dark
