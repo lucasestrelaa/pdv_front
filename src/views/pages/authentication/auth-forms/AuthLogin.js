@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -18,7 +18,7 @@ import {
   OutlinedInput,
   Stack,
   Typography,
-  useMediaQuery
+  // useMediaQuery
 } from '@mui/material';
 
 // third party
@@ -32,21 +32,26 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
 
-import Google from 'assets/images/icons/social-google.svg';
+// Routes
+import { useNavigate } from "react-router-dom";
+
+// import Google from 'assets/images/icons/social-google.svg';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const customization = useSelector((state) => state.customization);
+  // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  // const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
 
-  const googleHandler = async () => {
-    console.error('Login');
-  };
+  // const googleHandler = async () => {
+  //   console.error('Login');
+  // };
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -57,30 +62,32 @@ const FirebaseLogin = ({ ...others }) => {
     event.preventDefault();
   };
 
+  const submitForm = (submit, values) => {
+    event.preventDefault();
+
+    axios.post('http://localhost:3001/login', {
+      email: values.email,
+      password: values.password
+    })
+    .then(function (response) {
+      if(response.status == 200 && (response.data.length != 0)){
+        sessionStorage.setItem('authorization', response.data.token)
+        sessionStorage.setItem('id_user', response.data.id_user)
+        console.log("logado")
+        return navigate('/dashboard')
+      }else{
+        console.log("erro de login")
+      }
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100]
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-              </Box>
-              Sign in with Google
-            </Button>
-          </AnimateButton>
-        </Grid>
         <Grid item xs={12}>
           <Box
             sx={{
@@ -88,45 +95,21 @@ const FirebaseLogin = ({ ...others }) => {
               display: 'flex'
             }}
           >
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${customization.borderRadius}px`
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
 
             <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} container alignItems="center" justifyContent="center">
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address</Typography>
           </Box>
         </Grid>
       </Grid>
 
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
+          email: '',
+          password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          email: Yup.string().email('Digite um e-mail válido').max(255).required('Email é obrigatório!'),
+          password: Yup.string().max(255).required('Senha é obrigatória!')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -145,9 +128,9 @@ const FirebaseLogin = ({ ...others }) => {
         }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-          <form noValidate onSubmit={handleSubmit} {...others}>
+          <form noValidate onSubmit={() => submitForm(handleSubmit, values)} {...others}>
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-login">E-mail</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="email"
@@ -155,7 +138,7 @@ const FirebaseLogin = ({ ...others }) => {
                 name="email"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                label="Email Address / Username"
+                label="E-mail"
                 inputProps={{}}
               />
               {touched.email && errors.email && (
@@ -166,7 +149,7 @@ const FirebaseLogin = ({ ...others }) => {
             </FormControl>
 
             <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password-login">Senha</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password-login"
                 type={showPassword ? 'text' : 'password'}
@@ -187,7 +170,7 @@ const FirebaseLogin = ({ ...others }) => {
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
+                label="Senha"
                 inputProps={{}}
               />
               {touched.password && errors.password && (
@@ -201,10 +184,10 @@ const FirebaseLogin = ({ ...others }) => {
                 control={
                   <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
                 }
-                label="Remember me"
+                label="Lembrar-me"
               />
               <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                Forgot Password?
+                Esqueceu sua senha?
               </Typography>
             </Stack>
             {errors.submit && (
@@ -215,8 +198,8 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                  Sign in
+                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary" >
+                  Entrar
                 </Button>
               </AnimateButton>
             </Box>
