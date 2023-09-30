@@ -9,7 +9,6 @@ import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 
-
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const NewProduct = () => {
@@ -45,17 +44,17 @@ const NewProduct = () => {
   return (
     <MainCard title="Produtos">
       <Button onClick={() => redirNewProduct()}>Novo produto</Button>
-      {data.length > 0 && 
-      <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
-        {data.map((res, index) => {
-          return (
-            <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
-              <Typography variant="body2">{res.name} - {res.color} - {res.price}</Typography>
-              <Divider />
-            </Grid>
-          )
-        })}
-      </Grid>
+      {data.length > 0 &&
+        <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
+          {data.map((res, index) => {
+            return (
+              <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
+                <Typography variant="body2">{res.name} - {res.color} - {res.price}</Typography>
+                <Divider />
+              </Grid>
+            )
+          })}
+        </Grid>
       }
     </MainCard>
   );
