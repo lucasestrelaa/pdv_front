@@ -25,6 +25,15 @@ const App = () => {
   useEffect(()=>{
   },[])
 
+  const host = window.location.hostname.replace('/', '');
+
+  if(host == "localhost"){
+    sessionStorage.setItem('UrlBase', "http://localhost:3001")
+  }else{
+    sessionStorage.setItem('UrlBase', "https://pdv-back.vercel.app/")
+  }
+
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={themes(customization)}>

@@ -23,6 +23,7 @@ const NewSale = () => {
   const [interest, setInterest] = useState('');
   const [price, setPrice] = useState('');
   const token = sessionStorage.getItem('authorization');
+  const urlBase = sessionStorage.getItem("UrlBase")
   /**
    * Todas as vendas, puxar os dados dos produtos/vendas
    */
@@ -34,7 +35,7 @@ const NewSale = () => {
 
   const getProducts = () => {
     axios
-      .get('http://localhost:3001/product', { headers: { Authorization: token }, params: { id_store: 1 } })
+      .get(`${urlBase}/product`, { headers: { Authorization: token }, params: { id_store: 1 } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);

@@ -20,6 +20,7 @@ const NewProduct = () => {
 
   const [data, setData] = useState([]);
   const token = sessionStorage.getItem('authorization');
+  const urlBase = sessionStorage.getItem("UrlBase")
   useEffect(() => {
     // setLoading(false);
     if (token != '') {
@@ -29,7 +30,7 @@ const NewProduct = () => {
 
   const getProducts = () => {
     axios
-      .get('http://localhost:3001/product', { headers: { Authorization: token } })
+      .get(`${urlBase}/product`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);
