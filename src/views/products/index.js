@@ -42,9 +42,13 @@ const NewProduct = () => {
       });
   };
 
-  const redirNewProduct = () => {
-    return navigate('/newProduct')
+  const deleteProduct = (productId) => {
+    let resposta = "Deseja apagar esse produto?";
+    if(window.confirm(resposta) === true){
+      return navigate(`/editProduct/${productId}`)
+    }
   }
+
 
 
   return (
@@ -71,12 +75,12 @@ const NewProduct = () => {
                         </Grid>
                         <Grid item>
                         <Typography variant="subtitle1" color="inherit">
-                            <Link to={`/editProduct/?productId=${index}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> 
+                            <Link to={`/editProduct/${res.id_product}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> 
                           </Typography>
                         </Grid>
                         <Grid item>
                         <Typography variant="subtitle1" color="inherit">
-                            <IconX stroke={1.5} size="1.3rem" />
+                            <IconX stroke={1.5} size="1.3rem" onClick={() => deleteProduct(res.id_product)}/>
                           </Typography>
                         </Grid>
                       </Grid>

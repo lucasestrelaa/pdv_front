@@ -74,6 +74,7 @@ const FirebaseLogin = ({ ...others }) => {
       if(response.status == 200 && (response.data.length != 0)){
         sessionStorage.setItem('authorization', response.data.token)
         sessionStorage.setItem('id_user', response.data.id_user)
+        sessionStorage.setItem('id_store', response.data.id_store)
         console.log("logado")
         return navigate('/dashboard')
       }else{

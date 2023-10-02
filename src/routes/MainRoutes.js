@@ -49,7 +49,7 @@ const MainRoutes = {
       element: <NewProduct />
     },
     {
-      path: '/editProduct/:productId',
+      path: 'editProduct/:productId',
       element: <NewProduct />
     },
     {
