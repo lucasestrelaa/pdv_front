@@ -66,7 +66,7 @@ const FirebaseLogin = ({ ...others }) => {
   const submitForm = (submit, values) => {
     event.preventDefault();
 
-    axios.post(`${urlBase}/login`, {
+    axios.post(`${urlBase}login`, {
       email: values.email,
       password: values.password
     })
