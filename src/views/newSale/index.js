@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 // material-ui
-import { Typography, Grid, Button, FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
-import { gridSpacing } from 'store/constant';
+import { Typography, Grid, Button, Input } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -17,11 +16,11 @@ import { SET_PRODUCT } from 'store/actions';
 const NewSale = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [typePayment, setTypePayment] = useState('');
-  const [paid, setPaid] = useState('');
-  const [paymentTerm, setPaymentTerm] = useState('');
-  const [interest, setInterest] = useState('');
-  const [price, setPrice] = useState('');
+  // const [typePayment, setTypePayment] = useState('');
+  // const [paid, setPaid] = useState('');
+  // const [paymentTerm, setPaymentTerm] = useState('');
+  // const [interest, setInterest] = useState('');
+  // const [price, setPrice] = useState('');
   const token = sessionStorage.getItem('authorization');
   const urlBase = sessionStorage.getItem('UrlBase');
   /**
@@ -69,6 +68,8 @@ const NewSale = () => {
       product: item
     });
   };
+
+
 
   return (
     <MainCard title="Vendas">
@@ -123,38 +124,6 @@ const NewSale = () => {
           })}
         </Grid>
       )}
-      <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
-        <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl>
-            <InputLabel htmlFor="fname">Tipo de pagamento</InputLabel>
-            <Input id="fname" type="text" value={typePayment} onChange={(e) => setTypePayment(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite o tipo de pagamento.</FormHelperText>
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="fname">Vezes</InputLabel>
-            <Input id="fname" type="number" value={paymentTerm} onChange={(e) => setPaymentTerm(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite parcelas.</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl style={{ width: '20%' }}>
-            <InputLabel htmlFor="fname">Juros</InputLabel>
-            <Input id="fname" type="number" value={interest} onChange={(e) => setInterest(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite os juros(a.a).</FormHelperText>
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="fname">Preço</InputLabel>
-            <Input id="fname" value={price} onChange={(e) => setPrice(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite o preço.</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl>
-            <Input id="fname" type="checkbox" value={paid} onChange={(e) => setPaid(e.target.value)} />
-            <FormHelperText id="my-helper-text">Pago?</FormHelperText>
-          </FormControl>
-        </Grid>
-      </Grid>
     </MainCard>
   );
 };
