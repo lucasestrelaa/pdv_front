@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { Typography, Grid, FormControl, FormHelperText, OutlinedInput } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
+import MainCard from 'ui-component/cards/MainCard';
+
 const Payment = () => {
   const products = useSelector((state) => state.products);
   console.log(products);
@@ -57,6 +59,7 @@ const Payment = () => {
   
 
   return (
+    <MainCard title="Novo Produto">
     <form onSubmit={() => submit()}>
       <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
         <Typography>Pagamento</Typography>
@@ -113,6 +116,7 @@ const Payment = () => {
         </Grid>
       </Grid>
     </form>
+    </MainCard>
   );
 };
 
