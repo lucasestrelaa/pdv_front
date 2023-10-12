@@ -8,6 +8,10 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const Products = Loadable(lazy(() => import('views/products')));
 const NewProduct = Loadable(lazy(() => import('views/newProduct')));
+const Suppliers = Loadable(lazy(() => import('views/supplier')));
+const NewSupplier = Loadable(lazy(() => import('views/newSupplier')));
+const Client = Loadable(lazy(() => import('views/client')));
+const NewClient = Loadable(lazy(() => import('views/newClient')));
 const Sales = Loadable(lazy(() => import('views/sales')));
 const NewSale = Loadable(lazy(() => import('views/newSale')));
 const Payment = Loadable(lazy(() => import('views/payment')));
@@ -60,6 +64,30 @@ const MainRoutes = {
     {
       path: 'newsale',
       element: <NewSale />
+    },
+    {
+      path: 'suppliers',
+      element: <Suppliers />
+    },
+    {
+      path: 'newsupplier',
+      element: <NewSupplier />
+    },
+    {
+      path: 'editSupplier/:supplierId',
+      element: <NewSupplier />
+    },
+    {
+      path: 'clients',
+      element: <Client />
+    },
+    {
+      path: 'newclient',
+      element: <NewClient />
+    },
+    {
+      path: 'editClient/:clientId',
+      element: <NewSupplier />
     },
     {
       path: 'payment',

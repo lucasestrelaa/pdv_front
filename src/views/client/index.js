@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const NewProduct = () => {
+const NewClient = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState([]);
@@ -24,13 +24,13 @@ const NewProduct = () => {
   useEffect(() => {
     // setLoading(false);
     if (token != '') {
-      getProducts();
+      getClients();
     }
   }, []);
 
-  const getProducts = () => {
+  const getClients = () => {
     axios
-      .get(`${urlBase}/product`, { headers: { Authorization: token } })
+      .get(`${urlBase}/client`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);
@@ -42,22 +42,22 @@ const NewProduct = () => {
       });
   };
 
-  const deleteProduct = (productId) => {
-    let resposta = "Deseja apagar esse produto?";
+  const deleteClient = (clientId) => {
+    let resposta = "Deseja apagar esse cliente?";
     if(window.confirm(resposta) === true){
-      return navigate(`/editProduct/${productId}`)
+      return navigate(`/editClient/${clientId}`)
     }
   }
 
-  const redirNewProduct = () => {
-    return navigate('/newProduct')
+  
+  const redirNewClient = () => {
+    return navigate('/newClient')
   }
-
 
 
   return (
     <MainCard title="Produtos">
-      <Button onClick={() => redirNewProduct()}>Novo produto</Button>
+      <Button onClick={() => redirNewClient()}>Novo cliente</Button>
       {data.length > 0 &&
         <Grid container direction="column">
           {data.map((res, index) => {
@@ -67,24 +67,24 @@ const NewProduct = () => {
                   <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
                       <Typography variant="subtitle1" color="inherit">
-                        {res.name}
+                        {res.name} - {res.document}
                       </Typography>
                     </Grid>
                     <Grid item>
                       <Grid container alignItems="center" justifyContent="space-between">
                         <Grid item>
                           <Typography variant="subtitle1" color="inherit">
-                            {res.price}
+                            {res.phone_1} / {res.email_1}
                           </Typography>
                         </Grid>
                         <Grid item>
                         <Typography variant="subtitle1" color="inherit">
-                            <Link to={`/editProduct/${res.id_product}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> 
+                            <Link to={`/editClient/${res.id_client}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> 
                           </Typography>
                         </Grid>
                         <Grid item>
                         <Typography variant="subtitle1" color="inherit">
-                            <IconX stroke={1.5} size="1.3rem" onClick={() => deleteProduct(res.id_product)}/>
+                            <IconX stroke={1.5} size="1.3rem" onClick={() => deleteClient(res.id_client)}/>
                           </Typography>
                         </Grid>
                       </Grid>
@@ -93,7 +93,7 @@ const NewProduct = () => {
                 </Grid>
                 <Grid item>
                     <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
-                    {res.color}
+                    {res.description}
                     </Typography>
                   </Grid>
 
@@ -106,4 +106,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default NewClient;
