@@ -10,6 +10,7 @@ const Products = Loadable(lazy(() => import('views/products')));
 const NewProduct = Loadable(lazy(() => import('views/newProduct')));
 const Sales = Loadable(lazy(() => import('views/sales')));
 const NewSale = Loadable(lazy(() => import('views/newSale')));
+const Payment = Loadable(lazy(() => import('views/payment')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -59,6 +60,10 @@ const MainRoutes = {
     {
       path: 'newsale',
       element: <NewSale />
+    },
+    {
+      path: 'payment',
+      element: <Payment />
     },
     {
       path: 'utils',

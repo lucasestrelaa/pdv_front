@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // material-ui
-import { Typography, Grid, Divider, Button } from '@mui/material';
+import {  Typography, Grid, Divider, Button } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 // project imports
@@ -11,6 +11,20 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 // Routes
 import { useNavigate } from "react-router-dom";
+
+// Typography, Grid, Divider,
+// {data.length > 0 && 
+  // <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
+  //   {data.map((res, index) => {
+  //     return (
+  //       <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
+  //         <Typography variant="body2">{res.paid} - {res.type_payment} - {res.price}</Typography>
+  //         <Divider />
+  //       </Grid>
+  //     )
+  //   })}
+  // </Grid>
+//   }
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -36,6 +50,7 @@ const Sales = () => {
   // }
 
   const getSales = () => {
+    console.log('getData')
     axios
       .get(`${urlBase}/sales`, { headers: { Authorization: token }, params: {"id_store": 1} })
       .then(function (response) {
@@ -55,8 +70,8 @@ const Sales = () => {
   return (
     <MainCard title="Vendas">
       <Button onClick={() => redirNewSale()}>Nova venda</Button>
-      {data.length > 0 && 
-      <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
+      {data.length > 0 && (
+        <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
         {data.map((res, index) => {
           return (
             <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
@@ -66,7 +81,8 @@ const Sales = () => {
           )
         })}
       </Grid>
-      }
+      )}
+      
     </MainCard>
   );
 };

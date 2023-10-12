@@ -106,7 +106,7 @@ const NotificationList = () => {
             </ListItem>
             <Grid container direction="column" className="list-container">
             <Grid item xs={12} sx={{ pb: 2 }}>
-                <Typography variant="subtitle2">Preço: ${Number(res.price)*res.qnt}</Typography>
+                <Typography variant="subtitle2">Preço: R${(parseFloat(res.price)*parseInt(res.quantidade).toFixed(2))}</Typography>
               </Grid>
             
               <Grid item xs={12} sx={{ pb: 2 }}>

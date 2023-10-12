@@ -40,10 +40,15 @@ const customizationReducer = (state = initialState, action) => {
         borderRadius: action.borderRadius
       };
     case actionTypes.SET_PRODUCT:
-      return {
-          ...state,
-          product: [...state.product, action.product]//state.product.concat(action.product)
+      state = {
+        ...state,
+        product: state.product.filter((res) => res.id_product != action.product.id_product)
       };
+      return {
+        ...state,
+        product: [...state.product, action.product] //state.product.concat(action.product)
+      };
+
     default:
       return state;
   }

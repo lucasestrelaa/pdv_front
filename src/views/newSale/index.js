@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // material-ui
-import { Typography, Grid, Divider, Button, FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
-import { gridSpacing } from 'store/constant';
+import { Typography, Grid, Button, Input } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -17,13 +16,13 @@ import { SET_PRODUCT } from 'store/actions';
 const NewSale = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const [typePayment, setTypePayment] = useState('');
-  const [paid, setPaid] = useState('');
-  const [paymentTerm, setPaymentTerm] = useState('');
-  const [interest, setInterest] = useState('');
-  const [price, setPrice] = useState('');
+  // const [typePayment, setTypePayment] = useState('');
+  // const [paid, setPaid] = useState('');
+  // const [paymentTerm, setPaymentTerm] = useState('');
+  // const [interest, setInterest] = useState('');
+  // const [price, setPrice] = useState('');
   const token = sessionStorage.getItem('authorization');
-  const urlBase = sessionStorage.getItem("UrlBase")
+  const urlBase = sessionStorage.getItem('UrlBase');
   /**
    * Todas as vendas, puxar os dados dos produtos/vendas
    */
@@ -39,7 +38,6 @@ const NewSale = () => {
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);
-          console.log(response);
         }
       })
       .catch(function (error) {
@@ -48,7 +46,7 @@ const NewSale = () => {
   };
 
   // const AddProducts = (index) => {
-  const products = useSelector((state) => state.customization.product);
+  // const products = useSelector((state) => state.customization.product);
   // console.log(products)
   // }
 
@@ -56,7 +54,6 @@ const NewSale = () => {
 
   //quando seleciona a quantidade de um produto, é preciso adicionar a quantidade naquele produto específico
   const handleQnt = (id_item, change) => {
-    console.log('handleQnt: ', id_item, ' - ', change);
     let qntItem = change;
     setQnt({
       idItem: id_item,
@@ -65,9 +62,6 @@ const NewSale = () => {
   };
 
   const Add = (item) => {
-    let productsItens = products;
-    console.log(productsItens);
-    console.log(qnt);
     item = { ...item, quantidade: qnt.qnt };
     dispatch({
       type: SET_PRODUCT,
@@ -75,65 +69,61 @@ const NewSale = () => {
     });
   };
 
+
+
   return (
     <MainCard title="Vendas">
       Produtos da loja
       {data.length > 0 && (
-        <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
+        <Grid container direction="column" style={{ paddingTop: 10 }}>
           {data.map((res, index) => {
             return (
-              <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
-                <Typography variant="body2">
-                  {res.name} - {res.color} - {res.price} -
-                  <FormControl>
-                    <InputLabel htmlFor="pswd">Quantidade</InputLabel>
-                    <Input
-                      type="number"
-                      id={`qnt${index}`}
-                      aria-describedby="my-helper-text"
-                      onChange={(e) => handleQnt(index, e.target.value)}
-                    />
-                  </FormControl>
-                  <Button onClick={() => Add(res)}>Adicionar produto</Button>
-                </Typography>
-                <Divider />
+              <Grid container key={`${index}`} direction="column">
+                <Grid item>
+                  <Grid container alignItems="center" justifyContent="space-between">
+                    <Grid item>
+                      <Typography variant="subtitle1" color="inherit">
+                        {res.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Grid container alignItems="center" justifyContent="space-between">
+                        <Grid item style={{ marginRight: '10px' }}>
+                          <Typography variant="subtitle1" color="inherit">
+                            R$ {res.price}
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle1" color="inherit">
+                            <Input
+                              defaultValue={0}
+                              sx={{ width: 40 }}
+                              type="number"
+                              id={`qnt${index}`}
+                              aria-describedby="my-helper-text"
+                              onChange={(e) => handleQnt(index, e.target.value)}
+                            />
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="subtitle1" color="inherit">
+                            <Button onClick={() => Add(res)}>Adicionar produto</Button>
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
+                    {res.color}
+                  </Typography>
+                </Grid>
               </Grid>
             );
           })}
         </Grid>
       )}
-      <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
-        <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl>
-            <InputLabel htmlFor="fname">Tipo de pagamento</InputLabel>
-            <Input id="fname" type="text" value={typePayment} onChange={(e) => setTypePayment(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite o tipo de pagamento.</FormHelperText>
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="fname">Vezes</InputLabel>
-            <Input id="fname" type="number" value={paymentTerm} onChange={(e) => setPaymentTerm(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite parcelas.</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl style={{ width: '20%' }}>
-            <InputLabel htmlFor="fname">Juros</InputLabel>
-            <Input id="fname" type="number" value={interest} onChange={(e) => setInterest(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite os juros(a.a).</FormHelperText>
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="fname">Preço</InputLabel>
-            <Input id="fname" value={price} onChange={(e) => setPrice(e.target.value)} />
-            <FormHelperText id="my-helper-text">Digite o preço.</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl>
-            <Input id="fname" type="checkbox" value={paid} onChange={(e) => setPaid(e.target.value)} />
-            <FormHelperText id="my-helper-text">Pago?</FormHelperText>
-          </FormControl>
-        </Grid>
-      </Grid>
     </MainCard>
   );
 };

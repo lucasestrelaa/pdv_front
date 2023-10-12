@@ -21,7 +21,6 @@ import { useEffect } from 'react';
 const App = () => {
   // const [logged, setLogged] = useState([])
   const customization = useSelector((state) => state.customization);
-  console.log('routes')
   useEffect(()=>{
   },[])
 
