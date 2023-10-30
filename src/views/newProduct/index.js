@@ -52,7 +52,7 @@ const Products = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // console.log('Submitou: ', data);
+    //// console.log('Submitou: ', data);
     setData({
       ...data,
       id_store: id_store
