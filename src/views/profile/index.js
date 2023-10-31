@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const Suppliers = () => {
+const Profile = () => {
   const { supplierId } = useParams()
   console.log(supplierId)
   // const params = new URLSearchParams(location);
@@ -176,7 +176,7 @@ const Suppliers = () => {
 
 
   return (
-    <MainCard title="Novo Fornecedor">
+    <MainCard title="Pefil">
       <form onSubmit={(e) => onSubmit(e)}>
         <input type="hidden" id='id_supplier' value={data.id_supplier} />
         <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
@@ -308,4 +308,4 @@ const Suppliers = () => {
   );
 };
 
-export default Suppliers;
+export default Profile;

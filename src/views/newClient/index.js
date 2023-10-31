@@ -181,7 +181,7 @@ const Clients = () => {
         <input type="hidden" id='id_client' value={data.id_client} />
         <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
         <Grid item xs={12} sx={{ pt: '16px !important' }}>
-            <FormControl>
+            <FormControl style={{ width: "50%"}}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -194,7 +194,7 @@ const Clients = () => {
 
               <FormHelperText id="my-helper-text">Digite o documento do cliente.</FormHelperText>
             </FormControl>
-            <FormControl>
+            <FormControl style={{ width: "50%"}}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -209,7 +209,7 @@ const Clients = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sx={{ pt: '16px !important' }}>
-            <FormControl>
+            <FormControl style={{ width: "100%"}}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -223,7 +223,7 @@ const Clients = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sx={{ pt: '16px !important' }}>
-            <FormControl style={{ width: '20%' }}>
+            <FormControl style={{ width: '50%' }}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -235,7 +235,7 @@ const Clients = () => {
               />
               <FormHelperText id="my-helper-text">Digite o telefone 1.</FormHelperText>
             </FormControl>
-            <FormControl>
+            <FormControl style={{ width: "50%"}}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -249,7 +249,7 @@ const Clients = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sx={{ pt: '16px !important' }}>
-            <FormControl>
+            <FormControl style={{ width: "50%"}}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -260,7 +260,7 @@ const Clients = () => {
                 inputProps={{}}
               />
             </FormControl>
-            <FormControl>
+            <FormControl style={{ width: "50%"}}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -273,7 +273,7 @@ const Clients = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} sx={{ pt: '16px !important' }}>
-            <FormControl>
+            <FormControl style={{ width: "100%"}}>
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
@@ -300,7 +300,7 @@ const Clients = () => {
             </FormControl>
           </Grid>*/}
           <Grid item xs={12} sx={{ pt: '16px !important' }}>
-            <OutlinedInput id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
+            <OutlinedInput style={{ width: "100%"}} id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
           </Grid>
         </Grid>
       </form>

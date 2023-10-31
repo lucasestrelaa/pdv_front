@@ -15,6 +15,7 @@ const NewClient = Loadable(lazy(() => import('views/newClient')));
 const Sales = Loadable(lazy(() => import('views/sales')));
 const NewSale = Loadable(lazy(() => import('views/newSale')));
 const Payment = Loadable(lazy(() => import('views/payment')));
+const Profile = Loadable(lazy(() => import('views/profile')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -76,6 +77,10 @@ const MainRoutes = {
     {
       path: 'editSupplier/:supplierId',
       element: <NewSupplier />
+    },
+    {
+      path: 'profile',
+      element: <Profile />
     },
     {
       path: 'clients',
