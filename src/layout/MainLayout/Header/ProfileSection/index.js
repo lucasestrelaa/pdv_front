@@ -38,6 +38,7 @@ import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import axios from 'axios';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -51,12 +52,18 @@ const ProfileSection = () => {
   // const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
+  const urlBase = sessionStorage.getItem('UrlBase');
+  const token = sessionStorage.getItem('authorization');
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef(null);
   const handleLogout = async () => {
     console.log('Logout');
+    axios.post(`${urlBase}/logout`, { headers: { Authorization: token }})
+    .then(function (response) {
+      console.log('deslogado: ', response)
+    })
   };
 
   const handleClose = (event) => {

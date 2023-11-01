@@ -30,7 +30,7 @@ const NewClient = () => {
 
   const getClients = () => {
     axios
-      .get(`${urlBase}/client`, { headers: { Authorization: token } })
+      .get(`${urlBase}/client/store/:id_store`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);

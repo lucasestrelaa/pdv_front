@@ -21,6 +21,7 @@ const NewSupplier = () => {
   const [data, setData] = useState([]);
   const token = sessionStorage.getItem('authorization');
   const urlBase = sessionStorage.getItem("UrlBase")
+  const id_store = sessionStorage.getItem('id_store');
   useEffect(() => {
     // setLoading(false);
     if (token != '') {
@@ -30,7 +31,7 @@ const NewSupplier = () => {
 
   const getSuppliers = () => {
     axios
-      .get(`${urlBase}/supplier`, { headers: { Authorization: token } })
+      .get(`${urlBase}/supplier/store/${id_store}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);

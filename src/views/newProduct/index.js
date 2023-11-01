@@ -38,7 +38,7 @@ const Products = () => {
   const getProduct = (productId) => {
     console.log("getProduct")
     axios
-      .get(`${urlBase}/product/${productId}`, { headers: { Authorization: token } })
+      .get(`${urlBase}/product/product/${productId}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data[0]);
@@ -52,7 +52,7 @@ const Products = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    //// console.log('Submitou: ', data);
+    console.log('Submitou: ', data);
     setData({
       ...data,
       id_store: id_store

@@ -14,8 +14,8 @@ import { useParams } from 'react-router-dom';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const Profile = () => {
-  const { supplierId } = useParams()
-  console.log(supplierId)
+  const { profileId } = useParams()
+  console.log(profileId)
   // const params = new URLSearchParams(location);
   const token = sessionStorage.getItem('authorization');
   const urlBase = sessionStorage.getItem('UrlBase');
@@ -29,16 +29,16 @@ const Profile = () => {
   // const [hex, setHex] = useState('');
 
   useEffect(() => {
-    if(supplierId != null){
+    if(profileId != null){
 
-      getSupplier(supplierId);
+      getProfile(profileId);
     }
   }, []);
 
-  const getSupplier = (supplierId) => {
-    console.log("getSupplier")
+  const getProfile = (profileId) => {
+    console.log("getProfile")
     axios
-      .get(`${urlBase}/supplier/${supplierId}`, { headers: { Authorization: token } })
+      .get(`${urlBase}/profile/${profileId}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data[0]);
@@ -57,9 +57,9 @@ const Profile = () => {
       ...data,
       id_store: id_store
     })
-    if(data.id_supplier){
+    if(data.id_profile){
       axios
-      .put(`${urlBase}/supplier/${data.id_supplier}`, data, { headers: { Authorization: token } })
+      .put(`${urlBase}/profile/${data.id_profile}`, data, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
@@ -70,7 +70,7 @@ const Profile = () => {
       });
     }else{
       axios
-      .post(`${urlBase}/supplier`, data, { headers: { Authorization: token } })
+      .post(`${urlBase}/profile`, data, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
@@ -86,13 +86,13 @@ const Profile = () => {
   // useEffect(() => {
   //   // setLoading(false);
   //   if (token != '') {
-  //     // getSuppliers();
+  //     // getProfiles();
   //   }
   // }, []);
 
-  // const getSuppliers = () => {
+  // const getProfiles = () => {
   //   axios
-  //     .get('http://localhost:3001/supplier', { headers: { Authorization: token } })
+  //     .get('http://localhost:3001/profile', { headers: { Authorization: token } })
   //     .then(function (response) {
   //       if (response.status == 200) {
   //         setData(response.data);
@@ -178,7 +178,7 @@ const Profile = () => {
   return (
     <MainCard title="Pefil">
       <form onSubmit={(e) => onSubmit(e)}>
-        <input type="hidden" id='id_supplier' value={data.id_supplier} />
+        <input type="hidden" id='id_profile' value={data.id_profile} />
         <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
         <Grid item xs={12} sx={{ pt: '16px !important' }}>
             <FormControl style={{ width: "50%"}}>

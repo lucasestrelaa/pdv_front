@@ -185,7 +185,7 @@ const Clients = () => {
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
-                value={data.name}
+                value={data.document}
                 name="datadocument"
                 onChange={handleDocument}
                 placeholder="Documento"

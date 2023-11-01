@@ -185,7 +185,7 @@ const Suppliers = () => {
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
-                value={data.name}
+                value={data.cnpj}
                 name="dataCNPJ"
                 onChange={handleCNPJ}
                 placeholder="CNPJ"

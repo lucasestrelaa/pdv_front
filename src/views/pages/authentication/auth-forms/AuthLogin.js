@@ -71,6 +71,7 @@ const FirebaseLogin = ({ ...others }) => {
       password: values.password
     })
     .then(function (response) {
+      console.log('teste')
       if(response.status == 200 && (response.data.length != 0)){
         sessionStorage.setItem('authorization', response.data.token)
         sessionStorage.setItem('id_user', response.data.id_user)
