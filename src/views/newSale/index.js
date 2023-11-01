@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-// import { useTheme } from '@mui/material/styles';
+import { OutlinedInput } from '@mui/material';
 
 
 // material-ui
@@ -86,6 +86,8 @@ const NewSale = () => {
   // }
 
   const [qnt, setQnt] = useState([]);
+  const [total, setTotal] = useState(0.0)
+  // const [dataShow, setDataShow] = useState([])
 
   //quando seleciona a quantidade de um produto, é preciso adicionar a quantidade naquele produto específico
   const handleQnt = (id_item, change) => {
@@ -97,12 +99,28 @@ const NewSale = () => {
   };
 
   const Add = (item) => {
-    item = { ...item, quantidade: qnt.qnt };
+    let subtotal = 0.0
+    item = { ...item, quantidade: qnt.qnt, totalPrice: item.price * qnt.qnt };
+    console.log(products)
+    products.map((res) => {
+      console.log(res.totalPrice)
+      subtotal += res.totalPrice
+    })
+    console.log('subtotal: ', subtotal)
+    setTotal(subtotal)
+    // setDataShow(...dataShow, item)
     dispatch({
       type: SET_PRODUCT,
       product: item
     });
   };
+
+  const submit = () => {
+    
+    
+    console.log(total)
+    console.log('aqui: ', products)
+  }
 
 
 
@@ -186,7 +204,7 @@ const NewSale = () => {
                 </ListItem>
                 <Grid container direction="column" className="list-container">
                   <Grid item xs={12} sx={{ pb: 2 }}>
-                    <Typography variant="subtitle2">Preço: R${(parseFloat(res.price) * parseInt(res.quantidade).toFixed(2))}</Typography>
+                    <Typography variant="subtitle2">Preço: R${((res.price) * parseInt(res.quantidade)).toFixed(2)}</Typography>
                   </Grid>
 
                   <Grid item xs={12} sx={{ pb: 2 }}>
@@ -207,7 +225,12 @@ const NewSale = () => {
               <Divider />
             </Grid>
           ))}
-          <Grid direction="column" style={{ background: "#c3c3c3", padding: 10 }} xs={12}>Total</Grid>
+          <Grid direction="column" style={{ background: "#c3c3c3", padding: 10 }} xs={12}>
+            Total {total}
+          </Grid>
+          <Grid item xs={12} sx={{ pt: '16px !important' }} onClick={() => submit()}>
+            <OutlinedInput style={{ width: "100%"}} id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
+          </Grid>
         </Grid>
       </Grid>
 

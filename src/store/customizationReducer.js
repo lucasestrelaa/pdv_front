@@ -10,6 +10,7 @@ export const initialState = {
   fontFamily: config.fontFamily,
   borderRadius: config.borderRadius,
   product: [],
+  total: 0.0,
   opened: true
 };
 
@@ -47,6 +48,11 @@ const customizationReducer = (state = initialState, action) => {
       return {
         ...state,
         product: [...state.product, action.product] //state.product.concat(action.product)
+      };
+    case actionTypes.SET_TOTAL:
+      return {
+        ...state,
+        total: action.total
       };
 
     default:
