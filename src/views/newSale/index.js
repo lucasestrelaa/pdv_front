@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux'; //useDispatch,
 import { OutlinedInput } from '@mui/material';
 
 
 // material-ui
-import {  styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import {
   Divider,
   Avatar,
-  Typography, 
-  Grid, 
-  Button, 
-  Input, 
+  Typography,
+  Grid,
+  Button,
+  // Input, 
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
@@ -28,7 +28,7 @@ import User1 from 'assets/images/users/user-round.svg';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 
-import { SET_PRODUCT } from 'store/actions';
+// import { SET_PRODUCT } from 'store/actions';
 
 // styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
@@ -46,7 +46,7 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 const NewSale = () => {
   // const theme = useTheme();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [data, setData] = useState([]);
   // const [typePayment, setTypePayment] = useState('');
   // const [paid, setPaid] = useState('');
@@ -55,7 +55,9 @@ const NewSale = () => {
   // const [price, setPrice] = useState('');
   const token = sessionStorage.getItem('authorization');
   const urlBase = sessionStorage.getItem('UrlBase');
-  const products = useSelector((state) => state.customization.product);
+  // const products = useSelector((state) => state.customization.product);
+  // const [qnt, setQnt] = useState([]);
+  // const [total, setTotal] = useState(0.0)
 
   /**
    * 
@@ -68,11 +70,16 @@ const NewSale = () => {
   }, []);
 
   const getProducts = () => {
+    let productsQnt = []
     axios
       .get(`${urlBase}/product`, { headers: { Authorization: token }, params: { id_store: 1 } })
       .then(function (response) {
         if (response.status == 200) {
-          setData(response.data);
+          response.data.map((res) => {
+            productsQnt.push({ ...res, quantidade: 0 })
+          })
+          setData(productsQnt);
+          console.log(productsQnt)
         }
       })
       .catch(function (error) {
@@ -80,46 +87,82 @@ const NewSale = () => {
       });
   };
 
-  // const AddProducts = (index) => {
-  // const products = useSelector((state) => state.customization.product);
-  // console.log(products)
+  const handleIncrement = (id) => {
+    const updatedProdutos = data.map((produto) =>
+      produto.id_product === id ? { ...produto, quantidade: produto.quantidade + 1 } : produto
+    );
+
+    setData(updatedProdutos);
+  };
+
+  const handleDecrement = (id) => {
+    const updatedProdutos = data.map((produto) =>
+      produto.id_product === id && produto.quantidade > 0
+        ? { ...produto, quantidade: produto.quantidade - 1 }
+        : produto
+    );
+
+    setData(updatedProdutos);
+  };
+
+  const calcularTotal = () => {
+    return data.reduce((total, produto) => {
+      return total + produto.price * produto.quantidade;
+    }, 0);
+  };
+
+  // const updatePrice = () => {
+  //   let subtotal = 0.0
+  //   data.map((res) => {
+  //     if (res.quantidade > 0) {
+  //       subtotal += (res.price * res.quantidade).toFixed(2)
+  //     }
+  //   })
+  //   console.log("subtotal: ", subtotal)
+  //   // setTotal(subtotal)
   // }
 
-  const [qnt, setQnt] = useState([]);
-  const [total, setTotal] = useState(0.0)
+
   // const [dataShow, setDataShow] = useState([])
 
   //quando seleciona a quantidade de um produto, é preciso adicionar a quantidade naquele produto específico
-  const handleQnt = (id_item, change) => {
-    let qntItem = change;
-    setQnt({
-      idItem: id_item,
-      qnt: qntItem
-    });
-  };
+  // const handleQnt = (id_item, change) => {
+  //   let qntItem = change;
+  //   setQnt({
+  //     idItem: id_item,
+  //     qnt: qntItem
+  //   });
+  // };
 
-  const Add = (item) => {
-    let subtotal = 0.0
-    item = { ...item, quantidade: qnt.qnt, totalPrice: item.price * qnt.qnt };
-    console.log(products)
-    products.map((res) => {
-      console.log(res.totalPrice)
-      subtotal += res.totalPrice
-    })
-    console.log('subtotal: ', subtotal)
-    setTotal(subtotal)
-    // setDataShow(...dataShow, item)
-    dispatch({
-      type: SET_PRODUCT,
-      product: item
-    });
-  };
+  // const Add = (item) => {
+  //   let subtotal = 0.0
+  //   item = { ...item, quantidade: qnt.qnt, totalPrice: item.price * qnt.qnt };
+  //   console.log(products)
+  //   products.map((res) => {
+  //     console.log(res.totalPrice)
+  //     subtotal += res.totalPrice
+  //   })
+  //   console.log('subtotal: ', subtotal)
+  //   setTotal(subtotal)
+  //   // setDataShow(...dataShow, item)
+  //   dispatch({
+  //     type: SET_PRODUCT,
+  //     product: item
+  //   });
+  // };
 
   const submit = () => {
-    
-    
-    console.log(total)
-    console.log('aqui: ', products)
+
+    const total = calcularTotal().toFixed(2)
+    const ids = []
+    data.map((res) => {
+      if(res.quantidade > 0){
+        ids.push({"id_product": res.id_product, "quantidade": res.quantidade, "precoUnt": res.price, "totalPrice": (res.price * res.quantidade).toFixed(2)})
+      }
+    })
+    console.log("ids: ",ids ,"total: ",total)
+    //salvar no banco de dados cada produto
+    //salvar a venda
   }
 
 
@@ -152,20 +195,25 @@ const NewSale = () => {
                             </Typography>
                           </Grid>
                           <Grid item>
+
+                          </Grid>
+                          <Grid item>
                             <Typography variant="subtitle1" color="inherit">
-                              <Input
+                              <Button onClick={() => handleIncrement(res.id_product)}>+</Button>
+                            </Typography>
+                            <Typography variant="subtitle1" color="inherit">
+                              {res.quantidade}
+                              {/* <Input
                                 defaultValue={0}
                                 sx={{ width: 40 }}
                                 type="number"
                                 id={`qnt${index}`}
                                 aria-describedby="my-helper-text"
                                 onChange={(e) => handleQnt(index, e.target.value)}
-                              />
+                              /> */}
                             </Typography>
-                          </Grid>
-                          <Grid item>
                             <Typography variant="subtitle1" color="inherit">
-                              <Button onClick={() => Add(res)}>Adicionar produto</Button>
+                              <Button onClick={() => handleDecrement(res.id_product)}>-</Button>
                             </Typography>
                           </Grid>
                         </Grid>
@@ -184,52 +232,71 @@ const NewSale = () => {
         )}
         <Grid container xs={6} style={{ padding: 10 }}>
           Carrinho
-          {products.map((res, index) => (
-            <Grid key={`${index}`}>
-              <ListItemWrapper>
-                <ListItem alignItems="center">
-                  <ListItemAvatar>
-                    <Avatar alt="John Doe" src={User1} />
-                  </ListItemAvatar>
-                  <ListItemText primary={`${res.name}`} />
-                  <ListItemSecondaryAction>
-                    <Grid container justifyContent="flex-end">
-                      <Grid item xs={12}>
-                        <Typography variant="caption" display="block" gutterBottom>
-                          {res.quantidade}
-                        </Typography>
+          {data.length > 0 &&
+            <>
+              {data.map((res, index) => {
+                if(res.quantidade > 0){
+                  
+                  return(
+                    <Grid key={`${index}`}>
+                      <ListItemWrapper>
+                        <ListItem alignItems="center">
+                          <ListItemAvatar>
+                            <Avatar alt="John Doe" src={User1} />
+                          </ListItemAvatar>
+                          <ListItemText primary={`${res.name}`} />
+                          <ListItemSecondaryAction>
+                            <Grid container justifyContent="flex-end">
+                              <Grid item xs={12}>
+                                <Typography variant="caption" display="block" gutterBottom>
+                                  {res.quantidade}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                        <Grid container direction="column" className="list-container">
+                          <Grid item xs={12} sx={{ pb: 2 }}>
+                            <Typography variant="subtitle2">Preço: R${((res.price) * parseInt(res.quantidade)).toFixed(2)}</Typography>
+                          </Grid>
+    
+                          <Grid item xs={12} sx={{ pb: 2 }}>
+                            <Typography variant="subtitle2">Cor: {`${res.color}`}</Typography>
+                          </Grid>
+                          {/* <Grid item xs={12}>
+                    <Grid container>
+                      <Grid item>
+                        <Chip label="Unread" sx={chipErrorSX} />
+                      </Grid>
+                      <Grid item>
+                        <Chip label="New" sx={chipWarningSX} />
                       </Grid>
                     </Grid>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Grid container direction="column" className="list-container">
-                  <Grid item xs={12} sx={{ pb: 2 }}>
-                    <Typography variant="subtitle2">Preço: R${((res.price) * parseInt(res.quantidade)).toFixed(2)}</Typography>
-                  </Grid>
+                  </Grid> */}
+                        </Grid>
+                      </ListItemWrapper>
+                      <Divider />
+                    </Grid>
+                  )
+                }
+              }
+                // let subtotal = 0.0
+                // data.map((res) => {
+                //   if (res.quantidade > 0) {
+                //     subtotal += (res.price * res.quantidade).toFixed(2)
+                //   }
+                // })
+                // setTotal(subtotal)
+                )}
+              
+              <Grid direction="column" style={{ background: "#c3c3c3", padding: 10 }} xs={12}>
+                Total {calcularTotal().toFixed(2)}
+              </Grid>
+            </>
+          }
 
-                  <Grid item xs={12} sx={{ pb: 2 }}>
-                    <Typography variant="subtitle2">Cor: {`${res.color}`}</Typography>
-                  </Grid>
-                  {/* <Grid item xs={12}>
-                <Grid container>
-                  <Grid item>
-                    <Chip label="Unread" sx={chipErrorSX} />
-                  </Grid>
-                  <Grid item>
-                    <Chip label="New" sx={chipWarningSX} />
-                  </Grid>
-                </Grid>
-              </Grid> */}
-                </Grid>
-              </ListItemWrapper>
-              <Divider />
-            </Grid>
-          ))}
-          <Grid direction="column" style={{ background: "#c3c3c3", padding: 10 }} xs={12}>
-            Total {total}
-          </Grid>
           <Grid item xs={12} sx={{ pt: '16px !important' }} onClick={() => submit()}>
-            <OutlinedInput style={{ width: "100%"}} id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
+            <OutlinedInput style={{ width: "100%" }} id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
           </Grid>
         </Grid>
       </Grid>

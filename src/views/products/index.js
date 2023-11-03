@@ -35,7 +35,7 @@ const NewProduct = () => {
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);
-          console.log(response);
+          console.log(response.data);
         }
       })
       .catch(function (error) {
