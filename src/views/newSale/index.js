@@ -3,37 +3,37 @@ import { useState, useEffect } from 'react';
 import { OutlinedInput } from '@mui/material';
 
 // material-ui
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 
 import {
   Divider,
-  Avatar,
+  // Avatar,
   Typography,
   Grid,
   Button,
-  ListItem,
-  ListItemAvatar,
-  ListItemSecondaryAction,
-  ListItemText
+  // ListItem,
+  // ListItemAvatar,
+  // ListItemSecondaryAction,
+  // ListItemText
 } from '@mui/material';
 import { gridSpacing } from 'store/constant';
-import User1 from 'assets/images/users/user-round.svg';
+// import User1 from 'assets/images/users/user-round.svg';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 
 // styles
-const ListItemWrapper = styled('div')(({ theme }) => ({
-  cursor: 'pointer',
-  padding: 16,
-  '&:hover': {
-    background: theme.palette.primary.light
-  },
-  '& .MuiListItem-root': {
-    padding: 0
-  }
-}));
+// const ListItemWrapper = styled('div')(({ theme }) => ({
+//   cursor: 'pointer',
+//   padding: 16,
+//   '&:hover': {
+//     background: theme.palette.primary.light
+//   },
+//   '& .MuiListItem-root': {
+//     padding: 0
+//   }
+// }));
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -93,6 +93,10 @@ const NewSale = () => {
     }, 0);
   };
 
+  const search = (productName) => {
+    console.log(productName)
+  }
+
   const submit = () => {
     const total = calcularTotal().toFixed(2)
     const ids = []
@@ -112,6 +116,7 @@ const NewSale = () => {
         {data.length > 0 && (
           <Grid container xs={6} direction="column" style={{ padding: 10 }}>
             Produtos da loja
+            <input onChange={(e) => search(e.target.value)}/>
             {data.map((res, index) => {
               return (
                 <Grid container key={`${index}`} direction="column">
@@ -160,32 +165,20 @@ const NewSale = () => {
               {data.map((res, index) => {
                 if (res.quantidade > 0) {
                   return (
-                    <Grid key={`${index}`}>
-                      <ListItemWrapper>
-                        <ListItem alignItems="center">
-                          <ListItemAvatar>
-                            <Avatar alt="John Doe" src={User1} />
-                          </ListItemAvatar>
-                          <ListItemText primary={`${res.name}`} />
-                          <ListItemSecondaryAction>
-                            <Grid container justifyContent="flex-end">
-                              <Grid item xs={12}>
-                                <Typography variant="caption" display="block" gutterBottom>
-                                  {res.quantidade}
-                                </Typography>
-                              </Grid>
-                            </Grid>
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                        <Grid container direction="column" className="list-container">
-                          <Grid item xs={12} sx={{ pb: 2 }}>
-                            <Typography variant="subtitle2">Preço: R${((res.price) * parseInt(res.quantidade)).toFixed(2)}</Typography>
+                    <Grid container key={`${index}`} direction="column">
+                      <Grid item>
+                        <Grid container alignItems="center" justifyContent="space-between">
+                          <Grid item>
+                            <Typography variant="subtitle1" color="inherit">
+                              {res.name}
+                            </Typography>
                           </Grid>
-                          <Grid item xs={12} sx={{ pb: 2 }}>
-                            <Typography variant="subtitle2">Cor: {`${res.color}`}</Typography>
+                          <Grid item>
+                          <Typography variant="subtitle2">R${((res.price) * parseInt(res.quantidade)).toFixed(2)}</Typography>
+
                           </Grid>
                         </Grid>
-                      </ListItemWrapper>
+                      </Grid>
                       <Divider />
                     </Grid>
                   )
