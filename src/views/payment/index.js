@@ -8,12 +8,18 @@ import { gridSpacing } from 'store/constant';
 
 import MainCard from 'ui-component/cards/MainCard';
 import { useLocation } from 'react-router';
+import axios from 'axios';
 // import { useParams } from 'react-router';
 
 const Payment = () => {
   const location = useLocation();
+  const token = sessionStorage.getItem('authorization');
+  const urlBase = sessionStorage.getItem('UrlBase');
+  const id_store = sessionStorage.getItem("id_store")
+  const id_user = sessionStorage.getItem("id_user")
   console.log("venda: ", location.state)
   const dataReceived = location.state
+  console.log(dataReceived  )
   const products = useSelector((state) => state.products);
   console.log(products);
   const [data, setData] = useState([]);
@@ -25,17 +31,20 @@ const Payment = () => {
   const submit = () => {
     console.log('teste de submit')
     console.log(data)
+    
     //código de transação
-    const keytransaction = Math.floor()
+    const keytransaction = Date()+id_store+id_user
+    console.log("dataReceived: ",dataReceived, "keyTransaction: ", keytransaction)
 
     //salvar os produtos
-    dataReceived.map((res) => {
+    dataReceived.products.map((res) => {
       //salvar cada produto vendido
       let dataProduct = [{
-        "id_sale": id_sale,
+        // "id_sale": id_sale,
         "id_product": res.id_product,
         "keytransaction": keytransaction
       }]
+      console.log('dataProduct: ', dataProduct)
       axios
       .post(`${urlBase}/productsales`, dataProduct, { headers: { Authorization: token } })
       .then(function (response) {
@@ -49,6 +58,7 @@ const Payment = () => {
     })
     //salvar a venda
     let dataSale = [{...data, keytransaction }]
+    console.log(dataSale)
     axios
     .post(`${urlBase}/sale`, dataSale, { headers: { Authorization: token } })
     .then(function (response) {
