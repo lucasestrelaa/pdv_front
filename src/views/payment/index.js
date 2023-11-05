@@ -3,27 +3,63 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 // material-ui
-import { Typography, Grid, FormControl, FormHelperText, OutlinedInput } from '@mui/material';
+import { Grid, FormControl, FormHelperText, OutlinedInput } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 import MainCard from 'ui-component/cards/MainCard';
+import { useLocation } from 'react-router';
+// import { useParams } from 'react-router';
 
 const Payment = () => {
+  const location = useLocation();
+  console.log("venda: ", location.state)
+  const dataReceived = location.state
   const products = useSelector((state) => state.products);
   console.log(products);
-  const [data, setData] = useState([{
-    "typePayment": "",
-    "paymentTerm": 0,
-    "interest": 0,
-    "price": 0.0,
-    "paid": false,
-  }]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     setData()
   }, []);
 
-  const submit = () => {};
+  const submit = () => {
+    console.log('teste de submit')
+    console.log(data)
+    //código de transação
+    const keytransaction = Math.floor()
+
+    //salvar os produtos
+    dataReceived.map((res) => {
+      //salvar cada produto vendido
+      let dataProduct = [{
+        "id_sale": id_sale,
+        "id_product": res.id_product,
+        "keytransaction": keytransaction
+      }]
+      axios
+      .post(`${urlBase}/productsales`, dataProduct, { headers: { Authorization: token } })
+      .then(function (response) {
+        if (response.status == 200) {
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
+    //salvar a venda
+    let dataSale = [{...data, keytransaction }]
+    axios
+    .post(`${urlBase}/sale`, dataSale, { headers: { Authorization: token } })
+    .then(function (response) {
+      if (response.status == 200) {
+        console.log(response);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  };
 
   //Handlers
   const handleTypePayment = (value) => {
@@ -51,6 +87,7 @@ const Payment = () => {
     })
   }
   const handlePaid = (value) => {
+    console.log(value)
     setData({
         ...data, 
         paid: value
@@ -59,12 +96,10 @@ const Payment = () => {
   
 
   return (
-    <MainCard title="Novo Produto">
-    <form onSubmit={() => submit()}>
+    <MainCard title="Pagamento">
       <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
-        <Typography>Pagamento</Typography>
         <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl>
+          <FormControl  style={{ width: "50%"}}>
             <OutlinedInput
               id="fname"
               type="text"
@@ -73,7 +108,7 @@ const Payment = () => {
             />
             <FormHelperText id="my-helper-text">Digite o tipo de pagamento.</FormHelperText>
           </FormControl>
-          <FormControl>
+          <FormControl  style={{ width: "50%"}}>
             <OutlinedInput
               id="fname"
               type="number"
@@ -84,7 +119,7 @@ const Payment = () => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <FormControl style={{ width: '20%' }}>
+          <FormControl style={{ width: '50%' }}>
             <OutlinedInput
               id="fname"
               type="number"
@@ -93,7 +128,7 @@ const Payment = () => {
             />
             <FormHelperText id="my-helper-text">Digite os juros(a.a).</FormHelperText>
           </FormControl>
-          <FormControl>
+          <FormControl  style={{ width: "50%"}}>
             <OutlinedInput 
                 id="fname" 
                 placeholder="Valor" 
@@ -101,21 +136,20 @@ const Payment = () => {
             />
             <FormHelperText id="my-helper-text">Digite o preço.</FormHelperText>
           </FormControl>
-          <FormControl>
+          <FormControl  style={{ width: "20%"}}>
             <OutlinedInput 
                 id="fname" 
                 type="checkbox" 
                 placeholder="Pago" 
-                onChange={(e) => handlePaid(e.target.value)} 
+                onChange={(e) => handlePaid(e.target.checked)} 
             />
             <FormHelperText id="my-helper-text">Pago?</FormHelperText>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sx={{ pt: '16px !important' }}>
-          <OutlinedInput id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
+        <Grid item xs={12} sx={{ pt: '16px !important' }} onClick={() => submit()}>
+          <OutlinedInput  style={{ width: "100%"}} id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
         </Grid>
       </Grid>
-    </form>
     </MainCard>
   );
 };

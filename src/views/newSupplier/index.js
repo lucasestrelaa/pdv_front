@@ -58,6 +58,7 @@ const Suppliers = () => {
       id_store: id_store
     })
     if(data.id_supplier){
+      console.log(data)
       axios
       .put(`${urlBase}/supplier/${data.id_supplier}`, data, { headers: { Authorization: token } })
       .then(function (response) {

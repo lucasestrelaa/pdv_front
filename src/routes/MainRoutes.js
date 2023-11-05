@@ -92,7 +92,7 @@ const MainRoutes = {
     },
     {
       path: 'editClient/:clientId',
-      element: <NewSupplier />
+      element: <NewClient />
     },
     {
       path: 'payment',

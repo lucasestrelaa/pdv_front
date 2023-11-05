@@ -58,6 +58,7 @@ const Products = () => {
       id_store: id_store
     })
     if(data.id_product){
+      console.log('atualizou')
       axios
       .put(`${urlBase}/product/${data.id_product}`, data, { headers: { Authorization: token } })
       .then(function (response) {
@@ -69,6 +70,8 @@ const Products = () => {
         console.log(error);
       });
     }else{
+      console.log('novo')
+      console.log(data)
       axios
       .post(`${urlBase}/product`, data, { headers: { Authorization: token } })
       .then(function (response) {

@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const Clients = () => {
+const NewClient = () => {
   const { clientId } = useParams()
   console.log(clientId)
   // const params = new URLSearchParams(location);
@@ -36,9 +36,9 @@ const Clients = () => {
   }, []);
 
   const getClient = (clientId) => {
-    console.log("getClient")
+    console.log("getClient: ", clientId)
     axios
-      .get(`${urlBase}/client/${clientId}`, { headers: { Authorization: token } })
+      .get(`${urlBase}/client/client/${clientId}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data[0]);
@@ -308,4 +308,4 @@ const Clients = () => {
   );
 };
 
-export default Clients;
+export default NewClient;

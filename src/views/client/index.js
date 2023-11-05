@@ -15,12 +15,13 @@ import { Link } from 'react-router-dom';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const NewClient = () => {
+const Client = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   const token = sessionStorage.getItem('authorization');
-  const urlBase = sessionStorage.getItem("UrlBase")
+  const urlBase = sessionStorage.getItem("UrlBase");
+  const id_store = sessionStorage.getItem('id_store');
   useEffect(() => {
     // setLoading(false);
     if (token != '') {
@@ -30,7 +31,7 @@ const NewClient = () => {
 
   const getClients = () => {
     axios
-      .get(`${urlBase}/client/store/:id_store`, { headers: { Authorization: token } })
+      .get(`${urlBase}/client/store/${id_store}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);
@@ -56,7 +57,7 @@ const NewClient = () => {
 
 
   return (
-    <MainCard title="Produtos">
+    <MainCard title="Clientes">
       <Button onClick={() => redirNewClient()}>Novo cliente</Button>
       {data.length > 0 &&
         <Grid container direction="column">
@@ -106,4 +107,4 @@ const NewClient = () => {
   );
 };
 
-export default NewClient;
+export default Client;

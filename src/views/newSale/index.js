@@ -22,6 +22,8 @@ import { gridSpacing } from 'store/constant';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
+// import { Link } from 'react-router-dom';
 
 // styles
 // const ListItemWrapper = styled('div')(({ theme }) => ({
@@ -38,6 +40,7 @@ import axios from 'axios';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const NewSale = () => {
+  const navigate = useNavigate();
   const id_store = sessionStorage.getItem('id_store');
   const [data, setData] = useState([]);
   const token = sessionStorage.getItem('authorization');
@@ -105,9 +108,7 @@ const NewSale = () => {
         ids.push({ "id_product": res.id_product, "quantidade": res.quantidade, "precoUnt": res.price, "totalPrice": (res.price * res.quantidade).toFixed(2) })
       }
     })
-    console.log("ids: ", ids, "total: ", total)
-    //salvar no banco de dados cada produto
-    //salvar a venda
+    return navigate('/payment',{ state: {"products": ids, "total": total}})
   }
 
   return (
