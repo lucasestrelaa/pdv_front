@@ -19,7 +19,7 @@ const Payment = () => {
   const id_user = sessionStorage.getItem("id_user")
   console.log("venda: ", location.state)
   const dataReceived = location.state
-  console.log(dataReceived  )
+  console.log("dataReceived: ",dataReceived  )
   const products = useSelector((state) => state.products);
   console.log(products);
   const [data, setData] = useState([]);
@@ -39,11 +39,13 @@ const Payment = () => {
     //salvar os produtos
     dataReceived.products.map((res) => {
       //salvar cada produto vendido
-      let dataProduct = [{
+      let dataProduct = {
         // "id_sale": id_sale,
         "id_product": res.id_product,
-        "keytransaction": keytransaction
-      }]
+        "keytransaction": keytransaction,
+        "id_store": parseInt(id_store),
+        
+      }
       console.log('dataProduct: ', dataProduct)
       axios
       .post(`${urlBase}/productsales`, dataProduct, { headers: { Authorization: token } })
@@ -57,10 +59,10 @@ const Payment = () => {
       });
     })
     //salvar a venda
-    let dataSale = [{...data, keytransaction }]
+    let dataSale = {...data, keytransaction, id_store, id_user }
     console.log(dataSale)
     axios
-    .post(`${urlBase}/sale`, dataSale, { headers: { Authorization: token } })
+    .post(`${urlBase}/sales`, dataSale, { headers: { Authorization: token } })
     .then(function (response) {
       if (response.status == 200) {
         console.log(response);
@@ -73,30 +75,39 @@ const Payment = () => {
 
   //Handlers
   const handleTypePayment = (value) => {
+    console.log('typePayment: ', value)
     setData({
         ...data, 
         typePayment: value
     })
   }
   const handlePaymentTerm = (value) => {
+    console.log('PaymentTerm: ', value)
+
     setData({
         ...data, 
         paymentTerm: value
     })
   }
   const handleInterest = (value) => {
+    console.log('Interest: ', value)
+
     setData({
         ...data, 
         interest: value
     })
   }
   const handlePrice = (value) => {
+    console.log('Price: ', value)
+
     setData({
         ...data, 
         price: value
     })
   }
   const handlePaid = (value) => {
+    console.log('Paid: ', value)
+
     console.log(value)
     setData({
         ...data, 
