@@ -1,8 +1,8 @@
 // assets
-import { IconShoppingCart } from '@tabler/icons';
+import { IconShoppingCart, IconPlus } from '@tabler/icons';
 
 // constant
-const icons = { IconShoppingCart };
+const icons = { IconShoppingCart, IconPlus };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -16,7 +16,7 @@ const products = {
       title: 'Novo Produto',
       type: 'item',
       url: '/newproduct',
-      icon: icons.IconShoppingCart,
+      icon: icons.IconPlus,
       breadcrumbs: false
     },
     {

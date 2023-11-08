@@ -60,10 +60,19 @@ const ProfileSection = () => {
   const anchorRef = useRef(null);
   const handleLogout = async () => {
     console.log('Logout');
+    sessionStorage.clear()
     axios.post(`${urlBase}/logout`, { headers: { Authorization: token }})
     .then(function (response) {
       console.log('deslogado: ', response)
+      return navigate('/')
     })
+    .catch(function (error) {
+      console.log("Error: ", error.config.headers.Authorization);
+      if(error.config.headers.Authorization !== null){
+        console.log("Token Expirado!")
+        return navigate('/')
+      }
+    });
   };
 
   const handleClose = (event) => {

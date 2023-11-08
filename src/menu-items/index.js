@@ -1,5 +1,7 @@
+import adm from './adm';
 import clients from './clients';
 import dashboard from './dashboard';
+import invoices from './invoice';
 import products from './products';
 import sales from './sales';
 import suppliers from './suppliers';
@@ -10,7 +12,7 @@ import suppliers from './suppliers';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard, products, sales, suppliers, clients] //pages, utilities, other
+  items: [dashboard,adm, products, sales, suppliers, clients, invoices] //pages, utilities, other
 };
 
 export default menuItems;

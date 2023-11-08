@@ -51,17 +51,19 @@ const Sales = () => {
   // }
 
   const getSales = () => {
-    console.log('getData')
     axios
       .get(`${urlBase}/sales/store/${id_store}`, { headers: { Authorization: token }, params: {"id_store": 1} })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);
-          console.log(response);
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("Error: ", error.config.headers.Authorization);
+        if(error.config.headers.Authorization !== null){
+          console.log("Token Expirado!")
+          return navigate('/')
+        }
       });
   };
   const redirNewSale = () => {

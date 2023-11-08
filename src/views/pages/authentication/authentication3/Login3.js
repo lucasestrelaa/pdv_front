@@ -10,6 +10,8 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 // assets
 
@@ -18,6 +20,32 @@ import AuthFooter from 'ui-component/cards/AuthFooter';
 const Login = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const urlBase = sessionStorage.getItem("UrlBase")
+  const token = sessionStorage.getItem('authorization');
+
+  useEffect(() => {
+    getLogin()
+  }, [])
+  
+
+  const getLogin = () => {
+    console.log("getLogin")
+    axios
+      .get(`${urlBase}/login`, { headers: { Authorization: token } })
+      .then(function (response) {
+        if (response.status == 200) {
+          //setData(response.data[0]);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log("Error: ", error);
+        if(error.config.headers.Authorization !== null){
+          console.log("Token Expirado!")
+          return navigate('/')
+        }
+      });
+  };
 
   return (
     <AuthWrapper1>

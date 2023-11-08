@@ -30,7 +30,8 @@ const NewProduct = () => {
   }, []);
 
   const getProducts = () => {
-    axios
+    if(id_store != null){
+      axios
       .get(`${urlBase}/product/store/${id_store}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
@@ -39,8 +40,17 @@ const NewProduct = () => {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("Error: ", error.config.headers.Authorization);
+        if(error.config.headers.Authorization !== null){
+          console.log("Token Expirado!")
+          return navigate('/')
+        }
       });
+    }else{
+      console.log("Token Expirado!")
+      return navigate('/')
+    }
+    
   };
 
   const deleteProduct = (productId) => {

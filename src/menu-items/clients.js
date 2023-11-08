@@ -1,8 +1,8 @@
 // assets
-import { IconShoppingCart } from '@tabler/icons';
+import { IconUser, IconUserPlus } from '@tabler/icons';
 
 // constant
-const icons = { IconShoppingCart };
+const icons = { IconUser, IconUserPlus };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -16,7 +16,7 @@ const clients = {
       title: 'Novo Cliente',
       type: 'item',
       url: '/newclient',
-      icon: icons.IconShoppingCart,
+      icon: icons.IconUserPlus,
       breadcrumbs: false
     },
     {
@@ -24,7 +24,7 @@ const clients = {
       title: 'Clients',
       type: 'item',
       url: '/clients',
-      icon: icons.IconShoppingCart,
+      icon: icons.IconUser,
       breadcrumbs: false
     }
   ]

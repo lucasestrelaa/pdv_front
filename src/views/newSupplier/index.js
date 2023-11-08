@@ -46,7 +46,11 @@ const Suppliers = () => {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("Error: ", error.config.headers.Authorization);
+        if(error.config.headers.Authorization !== null){
+          console.log("Token Expirado!")
+          return navigate('/')
+        }
       });
   };
 
@@ -67,7 +71,11 @@ const Suppliers = () => {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("Error: ", error.config.headers.Authorization);
+        if(error.config.headers.Authorization !== null){
+          console.log("Token Expirado!")
+          return navigate('/')
+        }
       });
     }else{
       axios
@@ -78,7 +86,11 @@ const Suppliers = () => {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        console.log("Error: ", error.config.headers.Authorization);
+        if(error.config.headers.Authorization !== null){
+          console.log("Token Expirado!")
+          return navigate('/')
+        }
       });
     }
   };
