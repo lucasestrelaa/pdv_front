@@ -17,6 +17,7 @@ const NewSale = Loadable(lazy(() => import('views/newSale')));
 const Payment = Loadable(lazy(() => import('views/payment')));
 const Profile = Loadable(lazy(() => import('views/profile')));
 const Invoice = Loadable(lazy(() => import('views/invoice')));
+const Adm = Loadable(lazy(() => import('views/adm')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -102,6 +103,10 @@ const MainRoutes = {
     {
       path: 'invoice',
       element: <Invoice />
+    },
+    {
+      path: 'adm',
+      element: <Adm />
     },
     {
       path: 'utils',

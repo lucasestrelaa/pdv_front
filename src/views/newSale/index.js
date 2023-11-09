@@ -42,9 +42,9 @@ import { useNavigate } from 'react-router';
 const NewSale = () => {
   const navigate = useNavigate();
   const id_store = sessionStorage.getItem('id_store');
-  const [data, setData] = useState([]);
   const token = sessionStorage.getItem('authorization');
   const urlBase = sessionStorage.getItem('UrlBase');
+  const [data, setData] = useState([]);
 
   /**
    * 
