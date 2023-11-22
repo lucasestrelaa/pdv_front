@@ -70,7 +70,7 @@ const NewStore = () => {
 
   return (
     <MainCard title="Loja">
-      <Button onClick={() => redirNewStore()}>Novo produto</Button>
+      <Button onClick={() => redirNewStore()}>Nova Loja</Button>
       {data.length > 0 &&
         <Grid container direction="column">
           {data.map((res, index) => {
