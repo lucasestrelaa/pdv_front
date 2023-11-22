@@ -12,7 +12,7 @@ import suppliers from './suppliers';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard,adm, products, sales, suppliers, clients, invoices] //pages, utilities, other
+  items: [dashboard, adm, products, sales, suppliers, clients, invoices] //pages, utilities, other
 };
 
 export default menuItems;

@@ -1,9 +1,11 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const { Button } = require("@mui/material")
 const { default: MainCard } = require("ui-component/cards/MainCard")
 
 const Adm = () => {
+    const navigate = useNavigate()
     // const id_store = sessionStorage.getItem('id_store');
     const token = sessionStorage.getItem('authorization');
     const urlBase = sessionStorage.getItem('UrlBase');
@@ -41,9 +43,14 @@ const Adm = () => {
         console.log("salvar no banco")
     }
 
+    const navStore = () => {
+        return navigate('/store')
+    }
+
     return (
         <MainCard xs={8} title="Administração">
             <Button onClick={() => generateInvoices()}>Gerar faturas</Button>
+            <Button onClick={() => navStore()}>Lojas</Button>
         </MainCard>
     )
 }
