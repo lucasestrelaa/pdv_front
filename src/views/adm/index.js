@@ -10,20 +10,21 @@ const Adm = () => {
     // const id_store = sessionStorage.getItem('id_store');
     const token = sessionStorage.getItem('authorization');
     const urlBase = sessionStorage.getItem('UrlBase');
-    const [users, setUsers] = useState([])
     const [price, setPrice] = useState([])
     const [reference, setReference] = useState(true)
+    let usersArray = []
+    let dataStored = []
 
 
     const generateInvoices = () => {
         //buscar usuários e a id tabela de preço
         console.log("buscar todos os usuários")
         axios
-            .get(`${urlBase}/user`, { headers: { Authorization: token } })
+            .get(`${urlBase}/user/invoice`, { headers: { Authorization: token } })
             .then(function (response) {
                 if (response.status == 200) {
                     console.log("Usuários: ", response.data)
-                    setUsers(response.data)
+                    usersArray = response.data
                 }
             })
             .catch(function (error) {
@@ -52,19 +53,20 @@ const Adm = () => {
             });
         //bucar data para referência
         console.log("buscar data para referência")
-        const data = new Date().getMonth() + "/" + new Date().getFullYear()
+        const data = new Date().getMonth() + "-" + new Date().getFullYear()
         console.log("data: ", data)
         //conferir se no banco já tem a referência
         console.log("conferir se no banco já tem a referência")
         axios
-            .get(`${urlBase}/reference/${data}`, { headers: { Authorization: token } })
+            .get(`${urlBase}/invoice/reference/${data}`, { headers: { Authorization: token } })
             .then(function (response) {
                 if (response.status == 200) {
                     console.log("referência: ", response.data)
-                    if(response.data.length > 0){
+                    if(response.data.length > 0 && typeof(response.data) != "string"){
                         setReference(true)
                     }else{
                         setReference(false)
+                        newInvoices(false)
                     }
                 }
             })
@@ -75,16 +77,43 @@ const Adm = () => {
                     return navigate('/')
                 }
             });
-        //gerar boleto
-        console.log("gerar boleto")
-        if(reference){
-            console.log("gerou os boletos")
-        }
-        //salvar no banco
-        console.log("salvar no banco")
+    }
 
-        //dados geral
-        console.log(users, price)
+    const newInvoices = (isReference) => {
+         //gerar boleto
+         console.log("gerar boleto")
+         if(!isReference){
+            const currentReference = new Date().getMonth() + "/" + new Date().getFullYear()
+            
+            usersArray.forEach((res) => {
+                let data = {
+                    "description": `Fatura gerada.`,
+                    "reference": currentReference,
+                    "price": price[0].price,
+                    "id_store": res.id_store,
+                    "paid": false,
+                    "payday": null,
+                }
+                axios.post(`${urlBase}/invoice`, data, { headers: { Authorization: token } })
+                    .then((response) => {
+                        console.log("apenas response: ", response)
+                        if (response.status == 200) {
+                            // setData(response);
+                            // console.log(response);
+                            dataStored.push(response.data)
+                          }
+                    })
+                    .catch((e) => {
+                        console.log("Erro ao criar os boletos", e)
+                    })
+                console.log(`Data ${data} to insert in reference ${currentReference}`)
+            });
+            
+            console.log(dataStored)
+            console.log("gerou os boletos", reference)
+
+         }
+
     }
 
     const navStore = () => {
