@@ -82,7 +82,7 @@ const Adm = () => {
     const newInvoices = (isReference) => {
          //gerar boleto
          console.log("gerar boleto")
-         if(!isReference){
+         if(isReference){
             const currentReference = new Date().getMonth() + "/" + new Date().getFullYear()
             
             usersArray.forEach((res) => {
@@ -112,6 +112,8 @@ const Adm = () => {
             console.log(dataStored)
             console.log("gerou os boletos", reference)
 
+         }else{
+            alert("para essa referência já há faturas!")
          }
 
     }
