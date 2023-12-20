@@ -74,6 +74,26 @@ const Payment = () => {
           return navigate('/')
         }
       });
+      //balanço
+      let dataBalance = {
+        "description": "venda de produtos - usuário: "+ id_user,
+        "amount": data.price,
+        "id_store": id_store
+      }
+      axios
+      .post(`${urlBase}/balance`, dataBalance, { headers: { Authorization: token } })
+      .then(function (response) {
+        if (response.status == 200) {
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log("Error: ", error.config.headers.Authorization);
+        if(error.config.headers.Authorization !== null){
+          console.log("Token Expirado!")
+          return navigate('/')
+        }
+      });
 
     setTextResult("Venda realizada com sucesso!")
 

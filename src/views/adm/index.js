@@ -107,11 +107,15 @@ const Adm = () => {
     const navStore = () => {
         return navigate('/store')
     }
+    const navBills = () => {
+        return navigate('/bills')
+    }
 
     return (
         <MainCard xs={8} title="Administração">
             <Button onClick={() => generateInvoices()}>Gerar faturas</Button>
             <Button onClick={() => navStore()}>Lojas</Button>
+            <Button onClick={() => navBills()}>Contas a pagar/receber</Button>
         </MainCard>
     )
 }
