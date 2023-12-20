@@ -9,9 +9,15 @@ import menuItem from 'menu-items';
 
 const MenuList = () => {
   const navItems = menuItem.items.map((item) => {
+    const idUserType = sessionStorage.getItem('id_user_type')
     switch (item.type) {
       case 'group':
-        return <NavGroup key={item.id} item={item} />;
+        // if()
+        if(item.profile.includes(parseInt(idUserType))){
+          return <NavGroup key={item.id} item={item} />;
+        }else{
+          return
+        }
       default:
         return (
           <Typography key={item.id} variant="h6" color="error" align="center">

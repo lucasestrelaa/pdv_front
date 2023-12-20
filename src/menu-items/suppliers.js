@@ -27,7 +27,8 @@ const suppliers = {
       icon: icons.IconTruck,
       breadcrumbs: false
     }
-  ]
+  ],
+  profile: [1, 2]
 };
 
 export default suppliers;

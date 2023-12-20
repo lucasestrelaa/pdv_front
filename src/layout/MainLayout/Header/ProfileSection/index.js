@@ -14,12 +14,10 @@ import {
   ClickAwayListener,
   Divider,
   Grid,
-  InputAdornment,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  OutlinedInput,
   Paper,
   Popper,
   Stack,
@@ -37,7 +35,7 @@ import Transitions from 'ui-component/extended/Transitions';
 import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
 import axios from 'axios';
 
 // ==============================|| PROFILE MENU ||============================== //
@@ -46,9 +44,10 @@ const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
+  const nameUser = sessionStorage.getItem('nameUser') ? sessionStorage.getItem('nameUser') : "Usuário"
 
   // const [sdm, setSdm] = useState(true);
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
   // const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
@@ -178,14 +177,14 @@ const ProfileSection = () => {
                   <Box sx={{ p: 2 }}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">Hello,</Typography>
+                        <Typography variant="h4">Olá,</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne Doe
+                          {nameUser}
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">Perfil de usuário</Typography>
                     </Stack>
-                    <OutlinedInput
+                    {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
                       id="input-search-profile"
                       value={value}
@@ -200,7 +199,7 @@ const ProfileSection = () => {
                       inputProps={{
                         'aria-label': 'weight'
                       }}
-                    />
+                    /> */}
                     <Divider />
                   </Box>
                   <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>

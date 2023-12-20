@@ -62,7 +62,7 @@ const Invoice = () => {
             <TableCell>Referência</TableCell>
             <TableCell align="right">Preço</TableCell>
             <TableCell align="right">Pago</TableCell>
-            <TableCell align="right">Data de Pagamento</TableCell>
+            <TableCell align="right">Pagamento</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -75,8 +75,8 @@ const Invoice = () => {
                 {row.reference}
               </TableCell>
               <TableCell align="right">{formatMoney(row.price)}</TableCell>
-              <TableCell align="right">{row.paid}</TableCell>
-              <TableCell align="right">{row.payday}</TableCell>
+              <TableCell align="right">{row.paid === 0 ? "Fatura em aberto": "Fatura paga"}</TableCell>
+              <TableCell align="right">{row.payday === null? <a href={row.linkPayment}>Pagar Fatura</a> : row.payday}</TableCell>
             </TableRow>
           ))}
         </TableBody>

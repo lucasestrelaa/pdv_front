@@ -19,7 +19,8 @@ const invoices = {
       icon: icons.IconFileInvoice,
       breadcrumbs: false
     }
-  ]
+  ],
+  profile: [1]
 };
 
 export default invoices;

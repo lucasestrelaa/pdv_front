@@ -23,6 +23,7 @@ import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { formatMoney } from 'ui-component/helpers/helpers';
 // import { Link } from 'react-router-dom';
 
 // styles
@@ -99,9 +100,10 @@ const NewSale = () => {
     }, 0);
   };
 
-  const search = (productName) => {
-    console.log(productName)
-  }
+  // const search = (productName) => {
+  //   data.filter(res => res.name )
+  //   console.log(productName)
+  // }
 
   const submit = () => {
     const total = calcularTotal().toFixed(2)
@@ -119,8 +121,7 @@ const NewSale = () => {
       <Grid container spacing={gridSpacing}>
         {data.length > 0 && (
           <Grid container xs={6} direction="column" style={{ padding: 10 }}>
-            Produtos da loja
-            <input onChange={(e) => search(e.target.value)}/>
+            {/* <input onChange={(e) => search(e.target.value)}/> */}
             {data.map((res, index) => {
               return (
                 <Grid container key={`${index}`} direction="column">
@@ -135,7 +136,7 @@ const NewSale = () => {
                         <Grid container alignItems="center" justifyContent="space-between">
                           <Grid item style={{ marginRight: '10px' }}>
                             <Typography variant="subtitle1" color="inherit">
-                              R$ {res.price}
+                              {formatMoney(res.price)}
                             </Typography>
                           </Grid>
                           <Grid item>
@@ -178,7 +179,7 @@ const NewSale = () => {
                             </Typography>
                           </Grid>
                           <Grid item>
-                          <Typography variant="subtitle2">R${((res.price) * parseInt(res.quantidade)).toFixed(2)}</Typography>
+                          <Typography variant="subtitle2">{formatMoney((res.price) * parseInt(res.quantidade))}</Typography>
 
                           </Grid>
                         </Grid>
@@ -189,7 +190,7 @@ const NewSale = () => {
                 }
               })}
               <Grid direction="column" style={{ background: "#c3c3c3", padding: 2 }} xs={12}>
-                Total {calcularTotal().toFixed(2)}
+                Total {formatMoney(calcularTotal())}
               </Grid>
             </>
           }

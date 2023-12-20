@@ -19,7 +19,8 @@ const dashboard = {
       icon: icons.IconDashboard,
       breadcrumbs: false
     }
-  ]
+  ],
+  profile: [1, 2]
 };
 
 export default dashboard;

@@ -7,6 +7,7 @@ import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 import { useLocation } from 'react-router';
 import axios from 'axios';
+import { formatMoney } from 'ui-component/helpers/helpers';
 
 const Payment = () => {
   const location = useLocation();
@@ -158,7 +159,7 @@ const Payment = () => {
                   id="fname"
                   placeholder="Valor"
                   onChange={(e) => handlePrice(e.target.value)}
-                  value={data.price}
+                  value={formatMoney(data.price)}
                 />
                 <FormHelperText id="my-helper-text">Digite o preço.</FormHelperText>
               </FormControl>

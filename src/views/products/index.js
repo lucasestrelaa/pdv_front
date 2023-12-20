@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { IconEdit, IconX } from '@tabler/icons';
 import { Link } from 'react-router-dom';
+import { formatMoney } from 'ui-component/helpers/helpers';
 
 
 
@@ -85,7 +86,7 @@ const NewProduct = () => {
                       <Grid container alignItems="center" justifyContent="space-between">
                         <Grid item>
                           <Typography variant="subtitle1" color="inherit">
-                            {res.price}
+                            {formatMoney(res.price)}
                           </Typography>
                         </Grid>
                         <Grid item>

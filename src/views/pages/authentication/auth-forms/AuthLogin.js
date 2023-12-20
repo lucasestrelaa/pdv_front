@@ -76,6 +76,8 @@ const FirebaseLogin = ({ ...others }) => {
         sessionStorage.setItem('authorization', response.data.token)
         sessionStorage.setItem('id_user', response.data.id_user)
         sessionStorage.setItem('id_store', response.data.id_store)
+        sessionStorage.setItem('id_user_type', response.data.id_user_type)
+        sessionStorage.setItem('nameUser', response.data.nameUser)
         sessionStorage.setItem('token_expires_in', response.data.token_expires_in)
         console.log("logado")
         return navigate('/dashboard')

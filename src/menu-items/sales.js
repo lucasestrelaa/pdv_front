@@ -27,7 +27,8 @@ const sales = {
       icon: icons.IconBuildingStore,
       breadcrumbs: false
     }
-  ]
+  ],
+  profile: [1, 2, 3]
 };
 
 export default sales;

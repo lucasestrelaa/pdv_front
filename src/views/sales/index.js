@@ -8,9 +8,10 @@ import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 // Routes
 import { useNavigate } from "react-router-dom";
+import { formatMoney } from 'ui-component/helpers/helpers';
 
 // Typography, Grid, Divider,
 // {data.length > 0 && 
@@ -46,8 +47,8 @@ const Sales = () => {
   }, []);
 
   // const GetCurrent = () => {
-    const products = useSelector((state) => state.customization.product);
-    console.log(products)
+    // const products = useSelector((state) => state.customization.product);
+
   // }
 
   const getSales = () => {
@@ -55,6 +56,7 @@ const Sales = () => {
       .get(`${urlBase}/sales/store/${id_store}`, { headers: { Authorization: token }, params: {"id_store": 1} })
       .then(function (response) {
         if (response.status == 200) {
+          console.log(response)
           setData(response.data);
         }
       })
@@ -73,18 +75,18 @@ const Sales = () => {
   return (
     <MainCard title="Vendas">
       <Button onClick={() => redirNewSale()}>Nova venda</Button>
-      {data.length > 0 && (
+      {data.length > 0 && typeof(data) != 'string'? (
         <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
         {data.map((res, index) => {
           return (
             <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
-              <Typography variant="body2">{res.paid} - {res.type_payment} - {res.price}</Typography>
+              <Typography variant="body2">{res.paid} - {res.type_payment} - {formatMoney(res.price)}</Typography>
               <Divider />
             </Grid>
           )
         })}
       </Grid>
-      )}
+      ):  <Grid container spacing={gridSpacing} style={{ paddingTop: 30, justifyContent: "center" }}>Não foram encontrados dados!</Grid>}
       
     </MainCard>
   );

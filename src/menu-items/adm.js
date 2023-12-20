@@ -17,9 +17,10 @@ const adm = {
       type: 'item',
       url: '/adm',
       icon: icons.IconTool,
-      breadcrumbs: false
+      breadcrumbs: false,
     }
-  ]
+  ],
+  profile: [1]
 };
 
 export default adm;

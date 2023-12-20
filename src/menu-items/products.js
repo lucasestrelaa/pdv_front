@@ -27,7 +27,8 @@ const products = {
       icon: icons.IconShoppingCart,
       breadcrumbs: false
     }
-  ]
+  ],
+  profile: [1, 2]
 };
 
 export default products;

@@ -8,7 +8,7 @@ const icons = { IconUser, IconUserPlus };
 
 const clients = {
   id: 'clients',
-  title: 'Clients',
+  title: 'Clientes',
   type: 'group',
   children: [
     {
@@ -21,13 +21,14 @@ const clients = {
     },
     {
       id: 'clients',
-      title: 'Clients',
+      title: 'Clientes',
       type: 'item',
       url: '/clients',
       icon: icons.IconUser,
       breadcrumbs: false
     }
-  ]
+  ],
+  profile: [1, 2]
 };
 
 export default clients;

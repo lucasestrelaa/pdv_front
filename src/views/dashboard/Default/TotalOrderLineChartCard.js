@@ -17,7 +17,10 @@ import ChartDataYear from './chart-data/total-order-year-line-chart';
 
 // assets
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { formatMoney } from 'ui-component/helpers/helpers';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -65,11 +68,65 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const TotalOrderLineChartCard = ({ isLoading }) => {
   const theme = useTheme();
-
+  const urlBase = sessionStorage.getItem('UrlBase')
+  const token = sessionStorage.getItem("authorization")
+  const id_store = sessionStorage.getItem('id_store')
   const [timeValue, setTimeValue] = useState(false);
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
+
+  useEffect(() => {
+    getMonth()
+    getYear()
+  }, [])
+  
+
+  const [yearAmount, setYearAmount] = useState(0.0)
+  const [monthAmount, setMonthAmount] = useState(0.0)
+  const getMonth = () => {
+    axios.get(`${urlBase}/sales/month/${id_store}`, { headers: { Authorization: token } })
+      .then(function (response) {
+        if (response.status == 200) {
+          console.log(response)
+          sumCach(response.data, "month");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  const getYear = () => {
+    axios.get(`${urlBase}/sales/year/${id_store}`, { headers: { Authorization: token } })
+      .then(function (response) {
+        if (response.status == 200) {
+          console.log(response)
+          sumCach(response.data, "year");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const sumCach = (data, type) => {
+    let currentCash = 0.0
+    data.map((res) => {
+      currentCash = currentCash + res.amount
+    })
+    switch (type){
+      case "month":
+        setMonthAmount(currentCash)
+        break
+      case "year":
+        setYearAmount(currentCash)
+        break
+    }
+
+    // setCashRegister(currentCash)
+
+  }
+  
 
   return (
     <>
@@ -123,13 +180,13 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                     <Grid container alignItems="center">
                       <Grid item>
                         {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$108</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{formatMoney(monthAmount)}</Typography>
                         ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$961</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{formatMoney(yearAmount)}</Typography>
                         )}
                       </Grid>
                       <Grid item>
-                        <Avatar
+                        {/* <Avatar
                           sx={{
                             ...theme.typography.smallAvatar,
                             cursor: 'pointer',
@@ -138,7 +195,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                           }}
                         >
                           <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
-                        </Avatar>
+                        </Avatar> */}
                       </Grid>
                       <Grid item xs={12}>
                         <Typography
@@ -148,7 +205,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                             color: theme.palette.primary[200]
                           }}
                         >
-                          Total Order
+                          Total por período
                         </Typography>
                       </Grid>
                     </Grid>

@@ -17,6 +17,9 @@ import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
 import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
+import { formatMoney } from 'ui-component/helpers/helpers';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.dark,
@@ -58,8 +61,40 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const EarningCard = ({ isLoading }) => {
   const theme = useTheme();
-
+  const urlBase = sessionStorage.getItem('UrlBase')
+  const token = sessionStorage.getItem("authorization")
+  const id_store = sessionStorage.getItem('id_store')
   const [anchorEl, setAnchorEl] = useState(null);
+  const [cashRegister, setCashRegister] = useState(0.0)
+
+  useEffect(() => {
+    getBalance()
+    // getMonth()
+  }, [])
+
+  const getBalance = () => {
+    axios.get(`${urlBase}/balance/balance/${id_store}`, { headers: { Authorization: token } })
+      .then(function (response) {
+        if (response.status == 200) {
+          // console.log(response)
+          sumCach(response.data);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const sumCach = (data) => {
+    let currentCash = 0.0
+    data.map((res) => {
+      currentCash = currentCash + res.amount
+    })
+
+
+    setCashRegister(currentCash)
+
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -143,7 +178,7 @@ const EarningCard = ({ isLoading }) => {
               <Grid item>
                 <Grid container alignItems="center">
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$500.00</Typography>
+                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{formatMoney(cashRegister)}</Typography>
                   </Grid>
                   <Grid item>
                     <Avatar
@@ -167,7 +202,7 @@ const EarningCard = ({ isLoading }) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  Total Earning
+                  Total disponível no caixa
                 </Typography>
               </Grid>
             </Grid>
