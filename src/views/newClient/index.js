@@ -1,26 +1,27 @@
 import { useState } from 'react';
 
 // material-ui
-import { FormControl, FormHelperText, Grid, OutlinedInput } from '@mui/material';
+import { Alert, FormControl, FormHelperText, Grid, OutlinedInput, Snackbar } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import axios from 'axios';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const NewClient = () => {
+  const navigate = useNavigate();
   const { clientId } = useParams()
-  console.log(clientId)
   // const params = new URLSearchParams(location);
   const token = sessionStorage.getItem('authorization');
   const urlBase = sessionStorage.getItem('UrlBase');
   const id_store = sessionStorage.getItem('id_store');
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
   // const [name, setName] = useState('');
   // const [category, setCategory] = useState('');
   // const [amount, setAmount] = useState('');
@@ -67,6 +68,7 @@ const NewClient = () => {
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
+          handleClose()
         }
       })
       .catch(function (error) {
@@ -82,6 +84,7 @@ const NewClient = () => {
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
+          handleClose()
         }
       })
       .catch(function (error) {
@@ -93,49 +96,13 @@ const NewClient = () => {
       });
     }
   };
-  // const [data, setData] = useState([]);
-  // const token = sessionStorage.getItem('authorization');
-  // useEffect(() => {
-  //   // setLoading(false);
-  //   if (token != '') {
-  //     // getClients();
-  //   }
-  // }, []);
-
-  // const getClients = () => {
-  //   axios
-  //     .get('http://localhost:3001/client', { headers: { Authorization: token } })
-  //     .then(function (response) {
-  //       if (response.status == 200) {
-  //         setData(response.data);
-  //         console.log(response);
-  //       }
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
-  // function convert() {
-  //   let base64String = '';
-  //   // let file = document.getElementById('imagemInput').result
-
-  //   // console.log(btoa(file))
-  //   let file = document.querySelector('OutlinedInput[type=file]');
-  //   console.log(file);
-
-  //   let reader = new FileReader();
-  //   console.log('next');
-
-  //   reader.onload = function () {
-  //     base64String = 'data:image/jpeg;base64,' + reader.result.replace('data:', '').replace(/^.+,/, '');
-
-  //     // imageBase64Stringsep = base64String;
-
-  //     return base64String;
-  //   };
-  //   return reader.readAsDataURL(file);
-  // }
-
+  const handleClose = () => {
+    setOpen(true)
+    setTimeout(() => {
+      setOpen(false)
+      return navigate('/clients')
+    }, 1000);
+  }
 
   function handleDocument(e) {
     setData((data) => ({
@@ -316,6 +283,11 @@ const NewClient = () => {
           </Grid>
         </Grid>
       </form>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} style={{ left: "50%"}}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              Dados salvos!
+            </Alert>
+          </Snackbar>
     </MainCard>
   );
 };

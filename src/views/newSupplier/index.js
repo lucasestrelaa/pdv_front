@@ -1,19 +1,20 @@
 import { useState } from 'react';
 
 // material-ui
-import { FormControl, FormHelperText, Grid, OutlinedInput } from '@mui/material';
+import { Alert, FormControl, FormHelperText, Grid, OutlinedInput, Snackbar } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import axios from 'axios';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const Suppliers = () => {
+  const navigate = useNavigate();
   const { supplierId } = useParams()
   console.log(supplierId)
   // const params = new URLSearchParams(location);
@@ -21,6 +22,8 @@ const Suppliers = () => {
   const urlBase = sessionStorage.getItem('UrlBase');
   const id_store = sessionStorage.getItem('id_store');
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
+
   // const [name, setName] = useState('');
   // const [category, setCategory] = useState('');
   // const [amount, setAmount] = useState('');
@@ -54,6 +57,14 @@ const Suppliers = () => {
       });
   };
 
+  const handleClose = () => {
+    setOpen(true)
+    setTimeout(() => {
+      setOpen(false)
+      return navigate('/suppliers')
+    }, 1000);
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
     // console.log('Submitou: ', data);
@@ -68,6 +79,7 @@ const Suppliers = () => {
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
+          handleClose()
         }
       })
       .catch(function (error) {
@@ -83,6 +95,7 @@ const Suppliers = () => {
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
+          handleClose()
         }
       })
       .catch(function (error) {
@@ -317,6 +330,11 @@ const Suppliers = () => {
           </Grid>
         </Grid>
       </form>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} style={{ left: "50%"}}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              Dados salvos!
+            </Alert>
+          </Snackbar>
     </MainCard>
   );
 };

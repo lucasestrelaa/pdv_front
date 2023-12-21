@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // material-ui
-import { Typography, Grid, Button } from '@mui/material';
+import { Grid, Button, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 // import { gridSpacing } from 'store/constant';
 
 // project imports
@@ -61,46 +61,39 @@ const Client = () => {
       <Button onClick={() => redirNewClient()}>Novo cliente</Button>
       {data.length > 0 &&
         <Grid container direction="column">
-          {data.map((res, index) => {
-            return (
-              <Grid container key={`${index}`} direction="column">
-                <Grid item>
-                  <Grid container alignItems="center" justifyContent="space-between">
-                    <Grid item>
-                      <Typography variant="subtitle1" color="inherit">
-                        {res.name} - {res.document}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Grid container alignItems="center" justifyContent="space-between">
-                        <Grid item>
-                          <Typography variant="subtitle1" color="inherit">
-                            {res.phone_1} / {res.email_1}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                        <Typography variant="subtitle1" color="inherit">
-                            <Link to={`/editClient/${res.id_client}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> 
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                        <Typography variant="subtitle1" color="inherit">
-                            <IconX stroke={1.5} size="1.3rem" onClick={() => deleteClient(res.id_client)}/>
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                    <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
-                    {res.description}
-                    </Typography>
-                  </Grid>
-
-              </Grid>
-            )
-          })}
+            <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">Documento</TableCell>
+                  <TableCell align="center">Nome</TableCell>
+                  <TableCell align="center">Descrição</TableCell>
+                  <TableCell align="center">Telefone</TableCell>
+                  <TableCell align="center">Email</TableCell>
+                  <TableCell align="center">Editar</TableCell>
+                  <TableCell align="right">Excluir</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              {data.map((res, index) => {
+                return (
+                  <TableRow
+                        key={index}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell align="left">{res.document}</TableCell>
+                        <TableCell align="center" component="th" scope="row">{res.name}</TableCell>
+                        <TableCell align="center">{res.description}</TableCell>
+                        <TableCell align="center">{res.phone_1}</TableCell>
+                        <TableCell align="center">{res.email_1}</TableCell>
+                        <TableCell align="center"><Link to={`/editClient/${res.id_client}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> </TableCell>
+                        <TableCell align="right"><IconX stroke={1.5} size="1.3rem" onClick={() => deleteClient(res.id_client)}/></TableCell>
+                      </TableRow>
+                )
+              })}
+            </TableBody>
+              </Table>
+            </TableContainer>
         </Grid>
       }
     </MainCard>

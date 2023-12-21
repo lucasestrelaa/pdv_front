@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // material-ui
-import { Typography, Grid, Button } from '@mui/material';
+import { Button, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 // import { gridSpacing } from 'store/constant';
 
 // project imports
@@ -61,51 +61,42 @@ const NewSupplier = () => {
 
 
   return (
-    <MainCard title="Produtos">
+    <MainCard title="Fotnecedores">
       <Button onClick={() => redirNewSupplier()}>Novo fornecedor</Button>
       {data.length > 0 &&
-        <Grid container direction="column">
+        <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Documento</TableCell>
+              <TableCell align="center">Nome</TableCell>
+              <TableCell align="center">Descrição</TableCell>
+              <TableCell align="center">Telefone</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Editar</TableCell>
+              <TableCell align="right">Excluir</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
           {data.map((res, index) => {
             return (
-              <Grid container key={`${index}`} direction="column">
-                <Grid item>
-                  <Grid container alignItems="center" justifyContent="space-between">
-                    <Grid item>
-                      <Typography variant="subtitle1" color="inherit">
-                        {res.name} - {res.cnpj}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Grid container alignItems="center" justifyContent="space-between">
-                        <Grid item>
-                          <Typography variant="subtitle1" color="inherit">
-                            {res.phone_1} / {res.email_1}
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                        <Typography variant="subtitle1" color="inherit">
-                            <Link to={`/editSupplier/${res.id_supplier}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> 
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                        <Typography variant="subtitle1" color="inherit">
-                            <IconX stroke={1.5} size="1.3rem" onClick={() => deleteSupplier(res.id_supplier)}/>
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item>
-                    <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
-                    {res.description}
-                    </Typography>
-                  </Grid>
-
-              </Grid>
+              <TableRow
+                    key={index}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align="left">{res.cnpj}</TableCell>
+                    <TableCell align="center" component="th" scope="row">{res.name}</TableCell>
+                    <TableCell align="center">{res.description}</TableCell>
+                    <TableCell align="center">{res.phone_1}</TableCell>
+                    <TableCell align="center">{res.email_1}</TableCell>
+                    <TableCell align="center"><Link to={`/editSupplier/${res.id_supplier}`}><IconEdit stroke={1.5} size="1.3rem" /></Link> </TableCell>
+                    <TableCell align="right"><IconX stroke={1.5} size="1.3rem" onClick={() => deleteSupplier(res.id_supplier)}/></TableCell>
+                  </TableRow>
             )
           })}
-        </Grid>
+        </TableBody>
+          </Table>
+        </TableContainer>
       }
     </MainCard>
   );

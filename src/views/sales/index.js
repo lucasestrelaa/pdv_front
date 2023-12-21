@@ -1,7 +1,17 @@
 import { useState, useEffect } from 'react';
 
 // material-ui
-import {  Typography, Grid, Divider, Button } from '@mui/material';
+import {   
+  Grid,  
+  Button, 
+  TableContainer, 
+  Table, 
+  TableRow, 
+  TableCell, 
+  TableHead, 
+  TableBody, 
+  Paper 
+} from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 // project imports
@@ -11,7 +21,7 @@ import axios from 'axios';
 // import { useSelector } from 'react-redux';
 // Routes
 import { useNavigate } from "react-router-dom";
-import { formatMoney } from 'ui-component/helpers/helpers';
+import { formatData, formatMoney } from 'ui-component/helpers/helpers';
 
 // Typography, Grid, Divider,
 // {data.length > 0 && 
@@ -77,14 +87,40 @@ const Sales = () => {
       <Button onClick={() => redirNewSale()}>Nova venda</Button>
       {data.length > 0 && typeof(data) != 'string'? (
         <Grid container spacing={gridSpacing} style={{ paddingTop: 10 }}>
-        {data.map((res, index) => {
-          return (
-            <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
-              <Typography variant="body2">{res.paid} - {res.type_payment} - {formatMoney(res.price)}</Typography>
-              <Divider />
-            </Grid>
-          )
-        })}
+           <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Tipo de pagamento</TableCell>
+                  <TableCell align="center">Criado em</TableCell>
+                  <TableCell align="center">Pago</TableCell>
+                  <TableCell align="right">Valor</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              {data.map((res, index) => {
+                 return (
+                    <TableRow 
+                    key={index}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {res.type_payment}
+                      </TableCell>
+                      <TableCell align="center">{formatData(res.created_at)}</TableCell>
+                      <TableCell align="center">{res.paid === 1 ? "pago" : "fatura em aberto"}</TableCell>
+                      <TableCell align="right">{formatMoney(res.amount)}</TableCell>
+                    </TableRow>
+            // <Grid key={`${index}`} item xs={12} sx={{ pt: '16px !important' }}>
+            //   <Typography variant="body2">{res.paid} - {res.type_payment} - {formatMoney(res.amount)}</Typography>
+            //   <Divider />
+            // </Grid>
+                  )
+              })}
+              </TableBody>
+              </Table>
+            </TableContainer>
+        
       </Grid>
       ):  <Grid container spacing={gridSpacing} style={{ paddingTop: 30, justifyContent: "center" }}>Não foram encontrados dados!</Grid>}
       

@@ -1,20 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 // material-ui
-import { FormControl, FormHelperText, Grid, OutlinedInput } from '@mui/material';
+import { Alert, FormControl, FormHelperText, Grid, OutlinedInput, Snackbar } from '@mui/material';
 import { gridSpacing } from 'store/constant';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { formatMoney } from 'ui-component/helpers/helpers';
+import { useNavigate, useParams } from 'react-router-dom';
+
 // import axios from 'axios';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const NewBill = () => {
+  const navigate = useNavigate();
   const { billId } = useParams()
   console.log(billId)
   // const params = new URLSearchParams(location);
@@ -22,12 +23,7 @@ const NewBill = () => {
   const urlBase = sessionStorage.getItem('UrlBase');
   const id_store = sessionStorage.getItem('id_store');
   const [data, setData] = useState([]);
-  // const [name, setName] = useState('');
-  // const [category, setCategory] = useState('');
-  // const [amount, setAmount] = useState('');
-  // const [price, setPrice] = useState('');
-  // const [color, setColor] = useState('');
-  // const [hex, setHex] = useState('');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if(billId != null){
@@ -36,14 +32,14 @@ const NewBill = () => {
     }
   }, []);
 
-  const getBill = (clientId) => {
-    console.log("getBill: ", clientId)
+  const getBill = (billId) => {
+    console.log("getBill: ", billId)
     axios
       .get(`${urlBase}/balance/${billId}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data[0]);
-          console.log(response);
+          console.log(response.data[0]);
         }
       })
       .catch(function (error) {
@@ -62,12 +58,16 @@ const NewBill = () => {
       ...data,
       id_store: id_store
     })
-    if(data.id_client){
+
+    console.log(data)
+    if(data.id_balance){
+      console.log("tem id balance: ", data.id_balance, data.execution)
       axios
-      .put(`${urlBase}/client/${data.id_client}`, data, { headers: { Authorization: token } })
+      .put(`${urlBase}/balance/${data.id_balance}`, data, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
+          handleClose()
         }
       })
       .catch(function (error) {
@@ -78,11 +78,13 @@ const NewBill = () => {
         }
       });
     }else{
+      console.log("não tem id balance: ")
       axios
-      .post(`${urlBase}/client`, data, { headers: { Authorization: token } })
+      .post(`${urlBase}/balance`, data, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
+          handleClose()
         }
       })
       .catch(function (error) {
@@ -94,6 +96,14 @@ const NewBill = () => {
       });
     }
   };
+
+  const handleClose = () => {
+    setOpen(true)
+    setTimeout(() => {
+      setOpen(false)
+      return navigate('/bills')
+    }, 1000);
+  }
 
 
   function handleDescription(e) {
@@ -108,13 +118,18 @@ const NewBill = () => {
       amount: e.target.value
     }));
   }
-  
+  function handleExecution(e) {
+    setData((data) => ({
+      ...data,
+      execution: e.target.value
+    }));
+  }
 
 
   return (
     <MainCard title="Novo Contas a Pagar e Receber">
       <form onSubmit={(e) => onSubmit(e)}>
-        <input type="hidden" id='id_client' value={data.id_client} />
+        <input type="hidden" id='id_balance' value={data.id_balance} />
         <Grid container spacing={gridSpacing} style={{ paddingTop: 10, textAlign: 'center' }}>
         <Grid item xs={12} sx={{ pt: '16px !important' }}>
             <FormControl style={{ width: "50%"}}>
@@ -134,7 +149,7 @@ const NewBill = () => {
               <OutlinedInput
                 id="outlined-adornment-email-login"
                 type="text"
-                value={formatMoney(data.amount)}
+                value={data.amount}
                 name="dataAmount"
                 onChange={handleAmount}
                 placeholder="Valor"
@@ -143,12 +158,30 @@ const NewBill = () => {
 
               <FormHelperText id="my-helper-text">Digite o valor.</FormHelperText>
             </FormControl>
+            <FormControl style={{ width: "100%"}}>
+              <OutlinedInput
+                id="outlined-adornment-email-login"
+                type="date"
+                value={data.execution}
+                name="date"
+                onChange={handleExecution}
+                placeholder="Data de efetivação"
+                inputProps={{}}
+              />
+
+              <FormHelperText id="my-helper-text">Digite a data de efetivação.</FormHelperText>
+            </FormControl>
           </Grid>
           <Grid item xs={12} sx={{ pt: '16px !important' }}>
             <OutlinedInput style={{ width: "100%"}} id="outlined-adornment-email-login" type="submit" name="dataInput" placeholder="Input" inputProps={{}} />
           </Grid>
         </Grid>
       </form>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} style={{ left: "50%"}}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              Dados salvos!
+            </Alert>
+          </Snackbar>
     </MainCard>
   );
 };
