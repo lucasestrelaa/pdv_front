@@ -32,7 +32,7 @@ const NewProduct = () => {
   const getProducts = () => {
     if(id_store != null){
       axios
-      .get(`${urlBase}/product/store/${id_store}`, { headers: { Authorization: token } })
+      .get(`${urlBase}/products/store/${id_store}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data);

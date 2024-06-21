@@ -38,7 +38,7 @@ const Products = () => {
   const getProduct = (productId) => {
     console.log("getProduct")
     axios
-      .get(`${urlBase}/product/product/${productId}`, { headers: { Authorization: token } })
+      .get(`${urlBase}/products/product/${productId}`, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           setData(response.data[0]);
@@ -64,7 +64,7 @@ const Products = () => {
     if(data.id_product){
       console.log('atualizou')
       axios
-      .put(`${urlBase}/product/${data.id_product}`, data, { headers: { Authorization: token } })
+      .put(`${urlBase}/products/${data.id_product}`, data, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);
@@ -77,7 +77,7 @@ const Products = () => {
       console.log('novo')
       console.log(data)
       axios
-      .post(`${urlBase}/product`, data, { headers: { Authorization: token } })
+      .post(`${urlBase}/products`, data, { headers: { Authorization: token } })
       .then(function (response) {
         if (response.status == 200) {
           console.log(response);

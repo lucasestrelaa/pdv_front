@@ -2,40 +2,20 @@ import { useState, useEffect } from 'react';
 
 import { OutlinedInput } from '@mui/material';
 
-// material-ui
-// import { styled } from '@mui/material/styles';
 
 import {
   Divider,
-  // Avatar,
   Typography,
   Grid,
   Button,
-  // ListItem,
-  // ListItemAvatar,
-  // ListItemSecondaryAction,
-  // ListItemText
+
 } from '@mui/material';
 import { gridSpacing } from 'store/constant';
-// import User1 from 'assets/images/users/user-round.svg';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-// import { Link } from 'react-router-dom';
-
-// styles
-// const ListItemWrapper = styled('div')(({ theme }) => ({
-//   cursor: 'pointer',
-//   padding: 16,
-//   '&:hover': {
-//     background: theme.palette.primary.light
-//   },
-//   '& .MuiListItem-root': {
-//     padding: 0
-//   }
-// }));
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -59,7 +39,7 @@ const NewSale = () => {
   const getProducts = () => {
     let productsQnt = []
     axios
-      .get(`${urlBase}/product/store/${id_store}`, { headers: { Authorization: token }, params: { id_store: 1 } })
+      .get(`${urlBase}/products/store/${id_store}`, { headers: { Authorization: token }, params: { id_store: 1 } })
       .then(function (response) {
         if (response.status == 200) {
           response.data.map((res) => {
