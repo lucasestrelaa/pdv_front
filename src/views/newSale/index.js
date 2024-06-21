@@ -10,6 +10,7 @@ import {
   Button,
 
 } from '@mui/material';
+// import SearchBar from "material-ui-search-bar";
 import { gridSpacing } from 'store/constant';
 
 // project imports
@@ -25,6 +26,7 @@ const NewSale = () => {
   const token = sessionStorage.getItem('authorization');
   const urlBase = sessionStorage.getItem('UrlBase');
   const [data, setData] = useState([]);
+  // const [searched, setSearched] = useState<string>("");
 
   /**
    * 
@@ -56,6 +58,16 @@ const NewSale = () => {
         }
       });
   };
+  // const requestSearch = (searchedVal) => {
+  //   const filteredRows = rows.filter((row) => {
+  //     return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+  //   });
+  //   setRows(filteredRows);
+  // };
+  // const cancelSearch = () => {
+  //   setSearched("");
+  //   requestSearch(searched);
+  // };
 
   const handleIncrement = (id) => {
     const updatedProdutos = data.map((produto) =>
@@ -79,9 +91,9 @@ const NewSale = () => {
     }, 0);
   };
 
-  const search = (productName) => {
-    console.log(productName)
-  }
+  // const search = (productName) => {
+  //   console.log(productName)
+  // }
 
   const submit = () => {
     const total = calcularTotal().toFixed(2)
@@ -100,7 +112,11 @@ const NewSale = () => {
         {data.length > 0 && (
           <Grid container xs={6} direction="column" style={{ padding: 10 }}>
             Produtos da loja
-            <input onChange={(e) => search(e.target.value)}/>
+            {/* <SearchBar
+            value={searched}
+            onChange={(searchVal) => requestSearch(searchVal)}
+            onCancelSearch={() => cancelSearch()} 
+          />*/}
             {data.map((res, index) => {
               return (
                 <Grid container key={`${index}`} direction="column">
@@ -115,7 +131,7 @@ const NewSale = () => {
                         <Grid container alignItems="center" justifyContent="space-between">
                           <Grid item style={{ marginRight: '10px' }}>
                             <Typography variant="subtitle1" color="inherit">
-                              R$ {res.price}
+                              {res.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                             </Typography>
                           </Grid>
                           <Grid item>
@@ -158,7 +174,7 @@ const NewSale = () => {
                             </Typography>
                           </Grid>
                           <Grid item>
-                          <Typography variant="subtitle2">R${((res.price) * parseInt(res.quantidade)).toFixed(2)}</Typography>
+                          <Typography variant="subtitle2">{res.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</Typography>
 
                           </Grid>
                         </Grid>
@@ -168,8 +184,8 @@ const NewSale = () => {
                   )
                 }
               })}
-              <Grid direction="column" style={{ background: "#c3c3c3", padding: 2 }} xs={12}>
-                Total {calcularTotal().toFixed(2)}
+              <Grid direction="column" style={{ background: "#c3c3c3", padding: 2, textAlign: 'end' }} xs={12} >
+                Total {calcularTotal().toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
               </Grid>
             </>
           }
